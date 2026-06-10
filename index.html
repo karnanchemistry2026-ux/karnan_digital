@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ExamForge — NEET UG Practice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/screens.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <nav id="navbar">
+        <div id="nav-logo" class="nav-logo">
+            <i class="ph-fill ph-book-bookmark text-primary" style="font-size: 1.5rem; margin-right: 8px;"></i>
+            ExamForge
+        </div>
+        <div class="nav-right">
+            <button id="nav-btn-dashboard" class="nav-btn"><i class="ph ph-chart-line-up"></i> Dashboard</button>
+            <button id="nav-btn-mistakes" class="nav-btn"><i class="ph ph-push-pin"></i> Mistakes</button>
+            <button id="nav-btn-leaderboard" class="nav-btn"><i class="ph ph-trophy"></i> Leaderboard</button>
+            <button id="nav-btn-pro" class="nav-btn nav-btn-accent"><i class="ph-fill ph-lightning"></i> Pro</button>
+        </div>
+    </nav>
+
+    <!-- SCREEN: HOME -->
+    <section id="screen-home" class="screen active animate-fade-in">
+        <div class="home-hero">
+            <h1>Crack NEET UG with <span class="text-primary">Confidence</span></h1>
+            <p>The NEET preparation platform built the way your brain actually learns.</p>
+        </div>
+        
+        <div class="home-stats">
+            <div class="stat-card">
+                <div id="home-streak-count" class="stat-value">0</div>
+                <div class="stat-label"><i class="ph-fill ph-fire text-warning"></i> Day Streak</div>
+            </div>
+            <div class="stat-card">
+                <div id="home-daily-progress" class="stat-value">0/20</div>
+                <div class="stat-label"><i class="ph-fill ph-pencil-simple text-primary"></i> Today</div>
+            </div>
+            <div class="stat-card">
+                <div id="home-total-solved" class="stat-value">0</div>
+                <div class="stat-label"><i class="ph-fill ph-check-circle text-success"></i> Total Solved</div>
+            </div>
+            <div class="stat-card">
+                <div id="home-accuracy" class="stat-value">0%</div>
+                <div class="stat-label"><i class="ph-fill ph-target text-accent"></i> Accuracy</div>
+            </div>
+        </div>
+
+        <div class="home-cards">
+            <div id="home-card-practice" class="home-card">
+                <div class="home-card-icon icon-primary"><i class="ph-fill ph-books" style="font-size: 1.5rem;"></i></div>
+                <h3>Practice Mode</h3>
+                <p>Chapter-wise MCQs · 20 Q/day · Instant feedback</p>
+                <div class="card-badges">
+                    <span class="chip chip-blue">Class 11 & 12</span>
+                    <span class="chip chip-green">NCERT Mapped</span>
+                </div>
+            </div>
+            <div id="home-card-test" class="home-card">
+                <div class="home-card-icon icon-accent"><i class="ph-fill ph-star" style="font-size: 1.5rem;"></i></div>
+                <h3>Weekly Grand Test</h3>
+                <p>180 Questions · 3 hrs 20 min · NEET Pattern</p>
+                <div class="card-badges">
+                    <span class="chip chip-amber">+4/−1 Marking</span>
+                    <span class="chip chip-purple">All Subjects</span>
+                </div>
+            </div>
+            <div id="home-card-flashcards" class="home-card">
+                <div class="home-card-icon icon-purple"><i class="ph-fill ph-cards" style="font-size: 1.5rem;"></i></div>
+                <h3>Flash Cards</h3>
+                <p>SI Units · Formulas · Laws · Key Facts</p>
+                <div class="card-badges">
+                    <span class="chip chip-purple">Quick Revision</span>
+                </div>
+            </div>
+            <div id="home-card-dashboard" class="home-card">
+                <div class="home-card-icon icon-success"><i class="ph-fill ph-chart-pie-slice" style="font-size: 1.5rem;"></i></div>
+                <h3>My Dashboard</h3>
+                <p>Track your progress · Find weak areas</p>
+                <div class="card-badges">
+                    <span class="chip chip-green">Analytics</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="trust-badges mt-4 mb-4" style="display:flex; justify-content:center; gap:16px; font-size:0.85rem; color:var(--ink-muted);">
+            <span class="flex align-center gap-1"><i class="ph ph-book-open"></i> NCERT-mapped</span>
+            <span class="flex align-center gap-1"><i class="ph ph-globe"></i> Tamil & English</span>
+            <span class="flex align-center gap-1"><i class="ph ph-check-square-offset"></i> +4/−1 Marking</span>
+        </div>
+
+        <button id="home-pro-banner" class="pro-banner btn btn-block btn-accent flex justify-center align-center gap-2" style="width:100%; margin-top:16px; background-color:var(--accent); color:#fff; border:none; padding:12px; border-radius:var(--radius-sm); font-weight:600; cursor:pointer;">
+            <i class="ph-fill ph-lightning"></i> Upgrade to Pro — Unlock all questions
+        </button>
+    </section>
+
+    <!-- SCREEN: PRACTICE -->
+    <section id="screen-practice" class="screen">
+        <div id="practice-wizard" style="max-width: 800px; margin: 0 auto; padding-top: 40px;">
+            <div id="practice-stepper" class="stepper mb-4 flex align-center justify-center">
+                <div class="step-dot active" id="step-dot-1">1</div><div class="step-line" id="step-line-1"></div>
+                <div class="step-dot" id="step-dot-2">2</div><div class="step-line" id="step-line-2"></div>
+                <div class="step-dot" id="step-dot-3">3</div><div class="step-line" id="step-line-3"></div>
+                <div class="step-dot" id="step-dot-4">4</div>
+            </div>
+            <div id="practice-step-content" class="mt-4"></div>
+        </div>
+
+        <div id="mcq-arena" style="display:none; max-width: 800px; margin: 0 auto; padding-top: 40px;">
+            <div class="mcq-topbar mb-2 flex justify-between align-start">
+                <div>
+                    <div id="mcq-counter" style="font-size:1.2rem; font-weight:700; color:var(--ink); display:flex; align-items:center; gap:4px;"><i class="ph-bold ph-question"></i> 1/20</div>
+                    <div id="mcq-subject-chip" style="color:var(--primary); font-size:0.85rem; font-weight:600; margin-top:2px;">Physics</div>
+                </div>
+                <button id="mcq-exit-btn" style="background:white; border:1px solid var(--border); border-radius:100px; padding:6px 12px; font-size:0.85rem; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:4px; color:var(--ink);"><i class="ph ph-x"></i> Exit</button>
+            </div>
+            
+            <div class="progress-bar mb-4" style="height:4px; background:var(--bg); border-radius:4px; overflow:hidden;">
+                <div id="mcq-progress-bar" style="width: 0%; height:100%; background:var(--primary); transition:width 0.3s ease; border-radius:4px;"></div>
+            </div>
+            
+            <div class="question-card" style="background:white; border:1px solid var(--border); border-radius:12px; padding:24px;">
+                <div id="mcq-question-text" class="question-text mb-4" style="font-size:1.05rem; line-height:1.6; font-weight:500; color:var(--ink);">Question Text</div>
+                <div id="mcq-options-list" class="options-list flex flex-column gap-3 mb-4"></div>
+                <div id="mcq-explanation" class="explanation-box mt-4 p-3 bg-success-light border-left-success rounded-right" style="display:none; border-left:4px solid var(--success);"></div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:16px; margin-top:16px;">
+                    <div style="display:flex; gap:12px; font-size:0.85rem; font-weight:500; color:var(--ink-secondary);">
+                        <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-check-square" style="color:#10b981;"></i> <span id="mcq-correct-count">0</span></span>
+                        <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-x-square" style="color:#ef4444;"></i> <span id="mcq-wrong-count">0</span></span>
+                        <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-calendar-blank" style="color:#6366f1;"></i> <span id="mcq-left-today">20 left today</span></span>
+                    </div>
+                    <button id="mcq-next-btn" style="background:var(--primary); color:white; border:none; border-radius:100px; padding:8px 16px; font-size:0.9rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:4px;">Next <i class="ph-bold ph-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="daily-complete-overlay" style="display:none;" class="complete-card text-center p-4 card bg-accent-light border-accent mt-4">
+            <div class="complete-icon mb-4 text-accent" style="font-size:3rem;"><i class="ph-fill ph-party-popper"></i></div>
+            <h2 class="mb-2">Daily Practice Complete!</h2>
+            <p class="mb-4 text-ink-secondary">You've reached your 20 question limit for this chapter today. Great job!</p>
+            <div class="mb-4 text-center">
+                <p class="text-small text-muted mb-1">Resets in</p>
+                <div id="daily-countdown-timer" class="countdown text-primary font-weight-bold" style="font-size:2rem; font-family:monospace;">00:00:00</div>
+            </div>
+            <div class="flex gap-2 flex-column mt-4">
+                <button id="daily-another-chapter" class="btn btn-primary btn-block mb-2">Practice Another Chapter</button>
+                <button id="daily-go-home" class="btn btn-outline btn-block">Go to Home</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREEN: TEST SETUP -->
+    <section id="screen-test-setup" class="screen">
+        <div class="flex align-center gap-2 mb-4">
+            <button class="btn btn-back" onclick="window.ExamForge.router.goBack()"><i class="ph ph-arrow-left"></i> Back</button>
+            <h2>Weekly Grand Test</h2>
+        </div>
+        <div class="setup-card card p-4">
+            <label class="setup-label mb-2 block font-weight-bold">Number of Questions</label>
+            <div id="test-q-count-selector" class="setup-options flex wrap gap-2 mb-4">
+                <button class="sel-btn btn btn-outline" data-value="60">60</button>
+                <button class="sel-btn btn btn-outline" data-value="90">90</button>
+                <button class="sel-btn btn btn-outline" data-value="120">120</button>
+                <button class="sel-btn btn btn-primary active" data-value="150">150</button>
+                <button class="sel-btn btn btn-outline" data-value="180">180</button>
+            </div>
+            
+            <div class="flex justify-between align-center mb-4 p-3 bg-subtle rounded mt-4">
+                <span class="font-weight-bold">Time Limit:</span>
+                <span id="test-duration-display" class="duration-display text-primary font-weight-bold">2 Hrs 30 Min</span>
+            </div>
+
+            <div class="mb-4 mt-4">
+                <label class="setup-label mb-2 block font-weight-bold">Your Name</label>
+                <input type="text" id="test-name-input" class="input w-100 p-2 border rounded" placeholder="Enter your name" required style="width:100%; border:1px solid var(--border); padding:12px; border-radius:var(--radius-sm); font-family:inherit;">
+            </div>
+
+            <button id="test-start-btn" class="btn btn-primary btn-block animate-shimmer mt-4 flex justify-center align-center gap-2" style="width:100%;">
+                <i class="ph-fill ph-rocket-launch"></i> Launch Test
+            </button>
+        </div>
+    </section>
+
+    <!-- SCREEN: TEST ACTIVE -->
+    <section id="screen-test-active" class="screen">
+        <div class="test-topbar flex justify-between align-center mb-4">
+            <div id="test-q-counter" class="mcq-counter font-weight-bold text-muted">Q 1/150</div>
+            <div id="test-timer-display" class="timer-pill px-3 py-1 bg-warning-light text-warning rounded-full font-weight-bold border-warning" style="border:1px solid; border-radius:20px; font-family:monospace; padding:4px 12px;">02:30:00</div>
+        </div>
+
+        <div class="question-card card mb-4 p-4">
+            <div id="test-question-text" class="question-text mb-4" style="font-size:1.1rem; line-height:1.6; font-weight:500;">Question</div>
+            <div id="test-options-list" class="options-list flex flex-column gap-2 mt-4"></div>
+        </div>
+
+        <div class="test-nav flex justify-between align-center mb-4 mt-4">
+            <button id="test-prev-btn" class="btn btn-outline btn-sm"><i class="ph ph-arrow-left"></i> Prev</button>
+            <button id="test-mark-btn" class="btn btn-outline btn-sm text-warning border-warning"><i class="ph-fill ph-flag"></i> Mark for Review</button>
+            <button id="test-next-btn" class="btn btn-primary btn-sm">Next <i class="ph ph-arrow-right"></i></button>
+        </div>
+
+        <div class="palette-section mt-4">
+            <div class="flex justify-between align-center mb-2">
+                <button id="test-palette-toggle" class="btn btn-ghost btn-sm text-muted"><i class="ph ph-grid-four"></i> Question Palette <i class="ph ph-caret-down"></i></button>
+            </div>
+            <div id="test-palette-drawer" class="palette-drawer p-3 card mt-2" style="display:none; background:var(--bg-subtle);">
+                <div class="palette-legend flex wrap gap-3 mb-3 text-small">
+                    <div class="flex align-center gap-1"><span class="dot dot-answered" style="width:12px;height:12px;border-radius:50%;background:var(--success);display:inline-block;"></span> Answered</div>
+                    <div class="flex align-center gap-1"><span class="dot dot-unanswered" style="width:12px;height:12px;border-radius:50%;border:1px solid var(--border);background:white;display:inline-block;"></span> Not Answered</div>
+                    <div class="flex align-center gap-1"><span class="dot dot-marked" style="width:12px;height:12px;border-radius:50%;background:var(--warning);display:inline-block;"></span> Marked</div>
+                    <div class="flex align-center gap-1"><span class="dot dot-current" style="width:12px;height:12px;border-radius:50%;background:var(--primary);display:inline-block;"></span> Current</div>
+                </div>
+                <div id="test-palette-grid" class="palette-grid flex wrap gap-1 mt-3" style="display:flex; flex-wrap:wrap; gap:4px;"></div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button id="test-submit-btn" class="btn btn-danger btn-block" style="width:100%;">Submit Test</button>
+        </div>
+    </section>
+
+    <!-- SCREEN: TEST RESULTS -->
+    <section id="screen-test-results" class="screen">
+        <div class="result-hero mb-4 p-4 rounded text-center" style="background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; border-radius: var(--radius);">
+            <div class="text-white mb-2 opacity-80">Your Score</div>
+            <div id="result-score-pct" class="result-score mb-2 font-weight-bold" style="font-size: 3.5rem;">0%</div>
+            <div id="result-grade-label" class="result-grade px-3 py-1 rounded-full d-inline-block mt-2" style="background: rgba(255,255,255,0.2); border-radius: 20px; display: inline-block; padding: 4px 16px;">Grade</div>
+        </div>
+
+        <h3 class="mb-3 mt-4">Performance Overview</h3>
+        <div id="result-stats-grid" class="result-stats grid grid-3 gap-2 mb-4" style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <!-- Populated by JS -->
+        </div>
+
+        <h3 class="mb-3 mt-4">Subject Analysis</h3>
+        <div id="result-subject-analysis" class="section-card card mb-4 p-4">
+            <div style="height: 250px; width: 100%;">
+                <canvas id="result-subject-chart"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mb-3 mt-4">Chapter Analysis</h3>
+        <div id="result-chapter-analysis" class="section-card card mb-4 p-4">
+            <!-- Populated by JS -->
+        </div>
+
+        <h3 class="mb-3 mt-4">AI Feedback</h3>
+        <div id="result-ai-feedback" class="section-card mb-4 grid grid-2 gap-3" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+            <!-- Populated by JS -->
+        </div>
+
+        <div class="result-actions flex gap-2 mt-4" style="display:flex; gap:8px;">
+            <button id="result-btn-leaderboard" class="btn btn-outline flex align-center justify-center gap-1" style="flex:1;"><i class="ph ph-trophy"></i> Leaderboard</button>
+            <button id="result-btn-home" class="btn btn-primary flex align-center justify-center gap-1" style="flex:1;"><i class="ph ph-house"></i> Home</button>
+        </div>
+    </section>
+
+    <!-- SCREEN: FLASHCARDS -->
+    <section id="screen-flashcards" class="screen">
+        <div class="flex align-center gap-2 mb-4">
+            <button class="btn btn-back" onclick="window.ExamForge.router.goBack()"><i class="ph ph-arrow-left"></i> Back</button>
+            <h2>Flash Cards</h2>
+        </div>
+        <p class="text-muted mb-4">Master quick facts, formulas, and laws.</p>
+        <div id="fc-category-grid" class="fc-categories grid grid-2 gap-3 mt-4" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+            <!-- Populated by JS -->
+        </div>
+    </section>
+
+    <!-- SCREEN: FLASHCARD VIEWER -->
+    <section id="screen-flashcard-viewer" class="screen">
+        <div class="fc-header flex justify-between align-center mb-4">
+            <button id="fc-back-btn" class="btn btn-back"><i class="ph ph-arrow-left"></i> Back</button>
+            <h3 id="fc-category-title" class="m-0 text-center" style="flex:1;">Category</h3>
+            <div style="width:60px"></div>
+        </div>
+
+        <div class="fc-progress mb-4 text-center mt-4">
+            <div class="progress-bar mb-2" style="height:6px; background:var(--border); border-radius:4px; overflow:hidden;">
+                <div id="fc-progress-bar" class="progress-fill bg-success" style="width: 0%; height:100%; background:var(--success); transition:width 0.3s ease;"></div>
+            </div>
+            <div id="fc-progress-text" class="text-small text-muted font-weight-bold mt-2">0/0 Mastered</div>
+        </div>
+
+        <div id="fc-card-container" class="fc-card-container mb-4 cursor-pointer mt-4" style="perspective: 1000px; min-height: 280px;">
+            <div id="fc-card" class="fc-card" style="width: 100%; min-height: 260px; position: relative; transition: transform 0.6s; transform-style: preserve-3d;">
+                <div class="fc-card-inner" style="position: relative; width: 100%; height: 100%; transform-style: preserve-3d;">
+                    <div id="fc-card-front" class="fc-card-front card text-center p-4 flex align-center justify-center" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display:flex; align-items:center; justify-content:center; font-size: 1.25rem;">Front</div>
+                    <div id="fc-card-back" class="fc-card-back card bg-primary-light text-center p-4 flex align-center justify-center" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display:flex; align-items:center; justify-content:center; font-size: 1.25rem; transform: rotateY(180deg); background: var(--primary-light);">Back</div>
+                </div>
+            </div>
+            <p class="text-center text-muted text-small mt-3">Tap card to flip</p>
+        </div>
+
+        <div class="fc-actions flex gap-3 justify-center mt-4" style="display:flex; gap:12px; justify-content:center;">
+            <button id="fc-swipe-left-btn" class="btn btn-outline flex-1 flex align-center justify-center gap-1" style="flex:1;"><i class="ph ph-x"></i> Don't Know</button>
+            <button id="fc-swipe-right-btn" class="btn btn-outline text-success border-success flex-1 flex align-center justify-center gap-1" style="flex:1;"><i class="ph ph-check"></i> Got It</button>
+        </div>
+    </section>
+
+    <!-- SCREEN: DASHBOARD -->
+    <section id="screen-dashboard" class="screen">
+        <div class="flex align-center gap-2 mb-4">
+            <button class="btn btn-back" onclick="window.ExamForge.router.goBack()"><i class="ph ph-arrow-left"></i> Back</button>
+            <h2>My Dashboard</h2>
+        </div>
+
+        <!-- NEW GOAL ENGINE UI -->
+        <div class="card mb-4 bg-primary-light border-primary p-4" style="border: 1px solid var(--border-focus); background: var(--primary-light);">
+            <div class="flex justify-between align-center mb-3">
+                <h3 class="m-0 flex align-center gap-2"><i class="ph-fill ph-crosshair text-primary"></i> Target Goal</h3>
+                <button id="dash-edit-goal-btn" class="btn btn-sm btn-outline text-primary border-primary">Edit</button>
+            </div>
+            <div class="grid grid-2 gap-3 text-center mb-3" style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="p-3 bg-white rounded border">
+                    <div class="text-small text-muted mb-1">Target Score</div>
+                    <div id="dash-target-score" class="h2 text-primary font-weight-bold" style="margin:0;">650</div>
+                </div>
+                <div class="p-3 bg-white rounded border">
+                    <div class="text-small text-muted mb-1">Target College</div>
+                    <div id="dash-target-college" class="h3 font-weight-bold" style="margin:0; font-size:1.1rem;">AIIMS Delhi</div>
+                </div>
+            </div>
+            <div class="mt-3 text-small text-ink-secondary text-center p-2 rounded bg-white border">
+                Current Avg: <strong id="dash-current-avg">--</strong>/720. Status: <span id="dash-goal-status" class="font-weight-bold">--</span>
+            </div>
+        </div>
+
+        <div class="card mb-4 p-4 mt-4">
+            <h3 class="mb-3 text-center">7-Day Streak</h3>
+            <div id="dash-streak-calendar" class="streak-calendar flex justify-center gap-2" style="display:flex; justify-content:center; gap:8px;">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <div class="card mb-4 text-center p-4">
+            <h3 class="mb-3">Total Questions Solved</h3>
+            <div id="dash-total-solved" class="text-primary font-weight-bold" style="font-size: 3rem; color: var(--primary);">0</div>
+        </div>
+
+        <div class="card mb-4 p-4">
+            <h3 class="mb-4 text-center">Subject Accuracy</h3>
+            <div class="accuracy-rings" style="height: 200px; width: 100%; display: flex; justify-content: center;">
+                <canvas id="dash-accuracy-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="grid grid-2 gap-3 mb-4" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+            <div class="card bg-success-light border-success p-3" style="background:var(--success-light); border:1px solid var(--success);">
+                <h3 class="text-success mb-2 flex align-center gap-1" style="color:var(--success); font-size:1rem;"><i class="ph-fill ph-trend-up"></i> Best</h3>
+                <ul id="dash-best-chapters" class="pl-3 text-small m-0" style="padding-left:16px; font-size:0.85rem; margin:0;"></ul>
+            </div>
+            <div class="card bg-error-light border-error p-3" style="background:var(--error-light); border:1px solid var(--error);">
+                <h3 class="text-error mb-2 flex align-center gap-1" style="color:var(--error); font-size:1rem;"><i class="ph-fill ph-warning-circle"></i> Needs Work</h3>
+                <ul id="dash-weak-chapters" class="pl-3 text-small m-0" style="padding-left:16px; font-size:0.85rem; margin:0;"></ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREEN: MISTAKES -->
+    <section id="screen-mistakes" class="screen">
+        <div class="flex align-center gap-2 mb-4">
+            <button class="btn btn-back" onclick="window.ExamForge.router.goBack()"><i class="ph ph-arrow-left"></i> Back</button>
+            <h2>My Mistakes</h2>
+        </div>
+
+        <div id="mistakes-actions" class="mistakes-actions flex gap-2 mb-4 mt-4" style="display:flex; gap:8px;">
+            <button id="mistakes-repractice-btn" class="btn btn-primary flex-1 flex align-center justify-center gap-1" style="flex:1;"><i class="ph ph-arrows-clockwise"></i> Re-practice</button>
+            <button id="mistakes-clear-btn" class="btn btn-outline text-error border-error flex-1 flex align-center justify-center gap-1" style="flex:1; color:var(--error); border-color:var(--error);"><i class="ph ph-trash"></i> Clear All</button>
+        </div>
+
+        <div id="mistakes-empty-state" class="empty-state text-center p-4 card mt-4" style="display:none; padding: 2rem;">
+            <div class="mb-2 text-warning" style="font-size:3rem;"><i class="ph-fill ph-sparkle"></i></div>
+            <h3 class="mb-2">No mistakes yet!</h3>
+            <p class="text-muted">Keep practicing to find your weak areas.</p>
+        </div>
+
+        <div id="mistakes-list" class="mt-4 flex flex-column gap-3" style="display:flex; flex-direction:column; gap:12px;">
+            <!-- Populated by JS -->
+        </div>
+    </section>
+
+    <!-- SCREEN: LEADERBOARD -->
+    <section id="screen-leaderboard" class="screen">
+        <div class="flex align-center gap-2 mb-4">
+            <button class="btn btn-back" onclick="window.ExamForge.router.goBack()"><i class="ph ph-arrow-left"></i> Back</button>
+            <h2>Leaderboard</h2>
+        </div>
+
+        <div class="lb-tabs flex gap-2 mb-4 mt-4" style="display:flex; gap:8px;">
+            <button id="lb-tab-global" class="lb-tab active flex-1 btn btn-outline flex align-center justify-center gap-1" style="flex:1; padding:8px; border-radius:20px; font-weight:600;"><i class="ph ph-globe-hemisphere-west"></i> Global</button>
+            <button id="lb-tab-device" class="lb-tab flex-1 btn btn-outline flex align-center justify-center gap-1" style="flex:1; padding:8px; border-radius:20px; font-weight:600;"><i class="ph ph-device-mobile"></i> Local</button>
+            <button id="lb-tab-history" class="lb-tab flex-1 btn btn-outline flex align-center justify-center gap-1" style="flex:1; padding:8px; border-radius:20px; font-weight:600;"><i class="ph ph-calendar-blank"></i> History</button>
+        </div>
+
+        <div class="card p-0 overflow-hidden mt-4" style="padding:0; overflow:hidden;">
+            <div id="lb-content">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL: PRO UPGRADE -->
+    <div id="modal-pro" class="modal-overlay">
+        <div class="modal-content animate-scale-in w-100 m-3 card" style="max-width: 400px; width:100%; margin:16px; position:relative; background:white;">
+            <div class="flex justify-between align-center mb-3">
+                <h2 class="text-accent m-0 flex align-center gap-1" style="color:var(--accent);"><i class="ph-fill ph-lightning"></i> ExamForge Pro</h2>
+                <button id="modal-pro-close" class="btn btn-ghost btn-sm p-1" style="font-size:1.5rem; background:none; border:none; cursor:pointer;"><i class="ph ph-x"></i></button>
+            </div>
+            <p class="mb-4 text-ink-secondary">Unlock all premium questions and advanced analytics.</p>
+            
+            <div class="bg-subtle rounded p-3 mb-4" style="background:var(--bg-subtle); padding:16px; border-radius:var(--radius-sm);">
+                <div class="flex justify-between mb-2 border-bottom pb-2" style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:8px;"><span>Free</span><span class="text-muted">Limited Qs</span></div>
+                <div class="flex justify-between font-weight-bold text-accent" style="display:flex; justify-content:space-between; font-weight:bold; color:var(--accent);"><span>Pro</span><span>All 15,000+ Qs</span></div>
+            </div>
+
+            <div class="text-center mb-4 mt-4" style="text-align:center;">
+                <span class="font-weight-bold text-accent" style="font-size:3rem; font-weight:bold; color:var(--accent);">₹299</span><span class="text-muted">/year</span>
+            </div>
+
+            <form id="pro-form" class="mt-4">
+                <input type="text" class="input w-100 mb-2 p-2 rounded border" placeholder="Full Name" required style="width:100%; padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border); margin-bottom:8px;">
+                <input type="email" class="input w-100 mb-2 p-2 rounded border" placeholder="Email Address" required style="width:100%; padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border); margin-bottom:8px;">
+                <input type="tel" class="input w-100 mb-3 p-2 rounded border" placeholder="Phone Number" required style="width:100%; padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border); margin-bottom:16px;">
+                <button type="submit" class="btn btn-primary w-100 border-none font-weight-bold" style="width:100%; background:var(--accent); color:white; border:none; padding:14px; border-radius:var(--radius-sm); font-weight:bold; cursor:pointer;">Pay with Razorpay</button>
+            </form>
+            <p class="text-small text-muted text-center mt-3" style="font-size:0.8rem; text-align:center; margin-top:12px; color:var(--ink-muted);">This is a mock payment flow for the demo.</p>
+        </div>
+    </div>
+
+    <!-- MODAL: GOAL SETUP -->
+    <div id="modal-goal" class="modal-overlay">
+        <div class="modal-content animate-scale-in w-100 m-3 card" style="max-width: 360px; width:100%; margin:16px; background:white;">
+            <div class="flex justify-between align-center mb-3">
+                <h3 class="m-0 flex align-center gap-1"><i class="ph-fill ph-crosshair text-primary"></i> Set Target Goal</h3>
+                <button id="modal-goal-close" class="btn btn-ghost btn-sm p-1" style="font-size:1.5rem; background:none; border:none; cursor:pointer;"><i class="ph ph-x"></i></button>
+            </div>
+            <form id="goal-form" class="mt-4">
+                <label class="block text-small font-weight-bold mb-1">Target Score (out of 720)</label>
+                <input type="number" id="goal-score-input" min="0" max="720" class="input w-100 mb-3 p-2 rounded border" required style="width:100%; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border);">
+                
+                <label class="block text-small font-weight-bold mb-1">Target College</label>
+                <input type="text" id="goal-college-input" class="input w-100 mb-4 p-2 rounded border" required placeholder="e.g. AIIMS Delhi" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border);">
+                
+                <button type="submit" class="btn btn-primary w-100 border-none font-weight-bold" style="width:100%; padding:12px; border-radius:var(--radius-sm); cursor:pointer;">Save Goal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CONFIRM -->
+    <div id="modal-confirm" class="modal-overlay">
+        <div class="modal-content modal-sm animate-scale-in w-100 m-3 text-center card" style="max-width: 320px; width:100%; margin:16px; background:white; text-align:center;">
+            <h3 id="confirm-title" class="mb-2">Confirm Action</h3>
+            <p id="confirm-message" class="text-muted mb-4 mt-2" style="color:var(--ink-secondary); margin-bottom:24px;">Are you sure you want to do this?</p>
+            <div class="flex gap-2 justify-center" style="display:flex; gap:8px; justify-content:center;">
+                <button id="confirm-cancel" class="btn btn-outline flex-1" style="flex:1;">Cancel</button>
+                <button id="confirm-ok" class="btn btn-danger flex-1" style="flex:1; background:var(--error); color:white; border:none;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Logger -->
+    <script>
+      window.addEventListener('error', function(e) {
+        var errDiv = document.createElement('div');
+        errDiv.style = 'position:fixed;top:0;left:0;right:0;background:red;color:white;z-index:999999;padding:20px;font-size:16px;font-family:sans-serif;white-space:pre-wrap;box-shadow:0 4px 12px rgba(0,0,0,0.5);';
+        errDiv.innerHTML = '<b>RUNTIME ERROR:</b><br>' + e.message + '<br>' + e.filename + ':' + e.lineno + '<br>' + (e.error ? e.error.stack : '');
+        document.body.appendChild(errDiv);
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        var errDiv = document.createElement('div');
+        errDiv.style = 'position:fixed;top:0;left:0;right:0;background:darkred;color:white;z-index:999999;padding:20px;font-size:16px;font-family:sans-serif;white-space:pre-wrap;box-shadow:0 4px 12px rgba(0,0,0,0.5);';
+        errDiv.innerHTML = '<b>UNHANDLED PROMISE REJECTION:</b><br>' + e.reason;
+        document.body.appendChild(errDiv);
+      });
+    </script>
+    
+    <!-- App Logic -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
