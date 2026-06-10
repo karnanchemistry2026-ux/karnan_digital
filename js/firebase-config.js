@@ -1,18 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// TODO: Replace this with your actual Firebase Project Configuration
-// 1. Go to Firebase Console (console.firebase.google.com)
-// 2. Create a new project or open an existing one
-// 3. Register a Web App (</>) and copy the firebaseConfig object here
-// 4. Make sure to enable "Firestore Database" in the Firebase console
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAds2i0TtoiFhnLEc5D6VW9ybRLin2mxRo",
+  authDomain: "karnan-3c0bd.firebaseapp.com",
+  projectId: "karnan-3c0bd",
+  storageBucket: "karnan-3c0bd.firebasestorage.app",
+  messagingSenderId: "727953520852",
+  appId: "1:727953520852:web:68a43a343628904ffea341",
+  measurementId: "G-G8D4MQ9HZ3"
 };
 
 // Initialize Firebase
@@ -21,4 +18,8 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export { app, db };
+// Initialize Firebase Auth
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+export { app, db, auth, googleProvider };

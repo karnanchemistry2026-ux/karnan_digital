@@ -27,7 +27,7 @@ const screenInitMap = {
 // ── Wrap navigateTo to auto-init screens ──
 const originalNavigateTo = navigateTo;
 
-function wrappedNavigateTo(screenId, direction = 'forward') {
+export function wrappedNavigateTo(screenId, direction = 'forward') {
   originalNavigateTo(screenId, direction);
 
   // Auto-initialize the target screen
