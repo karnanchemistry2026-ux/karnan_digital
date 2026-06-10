@@ -62,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMistakes = document.getElementById('nav-btn-mistakes');
   const navLeaderboard = document.getElementById('nav-btn-leaderboard');
   const navPro = document.getElementById('nav-btn-pro');
+  const navProfile = document.getElementById('nav-btn-profile');
+  const profileSettingsBtn = document.getElementById('btn-profile-settings');
 
   if (navLogo) {
     navLogo.addEventListener('click', () => wrappedNavigateTo('screen-home'));
@@ -80,6 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const modal = document.getElementById('modal-pro');
       if (modal) modal.classList.add('active');
     });
+  }
+  if (navProfile) {
+    navProfile.addEventListener('click', () => wrappedNavigateTo('screen-profile'));
+  }
+  if (profileSettingsBtn) {
+    profileSettingsBtn.addEventListener('click', () => wrappedNavigateTo('screen-settings'));
   }
 
   // ── Wire Pro modal ──

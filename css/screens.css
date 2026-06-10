@@ -1549,3 +1549,127 @@
     height: 32px;
   }
 }
+
+/* Daily Goal Widget */
+.daily-goal-widget {
+    background: linear-gradient(135deg, #0ba391, #088c7d);
+    border-radius: 16px;
+    padding: 24px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 24px rgba(11, 163, 145, 0.25);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.daily-goal-left {
+    flex: 1;
+    padding-right: 24px;
+}
+.daily-goal-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+.daily-goal-text {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+.daily-goal-progress-track {
+    background: rgba(255, 255, 255, 0.2);
+    height: 8px;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+.daily-goal-progress-fill {
+    background: rgba(255, 255, 255, 0.95);
+    height: 100%;
+    border-radius: 4px;
+    width: 0%;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.daily-goal-status {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+.daily-goal-right {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.daily-goal-right svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+.daily-goal-right circle {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+.daily-goal-right .circle-bg {
+    stroke: rgba(255, 255, 255, 0.2);
+}
+.daily-goal-right .circle-progress {
+    stroke: rgba(255, 255, 255, 0.95);
+    stroke-dasharray: 213.6;
+    stroke-dashoffset: 213.6;
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.daily-goal-percent {
+    font-size: 1.25rem;
+    font-weight: 800;
+    z-index: 1;
+}
+
+
+/* New Home Stats Layout */
+.home-stats-new {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.stat-box {
+    background: white;
+    border-radius: 20px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+.stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+.stat-value-new {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+.stat-label-new {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #9E9E9E;
+}
+

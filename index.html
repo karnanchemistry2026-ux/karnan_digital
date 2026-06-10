@@ -22,6 +22,7 @@
             <button id="nav-btn-mistakes" class="nav-btn"><i class="ph ph-push-pin"></i> Mistakes</button>
             <button id="nav-btn-leaderboard" class="nav-btn"><i class="ph ph-trophy"></i> Leaderboard</button>
             <button id="nav-btn-pro" class="nav-btn nav-btn-accent"><i class="ph-fill ph-lightning"></i> Pro</button>
+            <button id="nav-btn-profile" class="nav-btn"><i class="ph-bold ph-user"></i> Profile</button>
         </div>
     </nav>
 
@@ -32,23 +33,53 @@
             <p>The NEET preparation platform built the way your brain actually learns.</p>
         </div>
         
-        <div class="home-stats">
-            <div class="stat-card">
-                <div id="home-streak-count" class="stat-value">0</div>
-                <div class="stat-label"><i class="ph-fill ph-fire text-warning"></i> Day Streak</div>
+        <div class="home-stats-new">
+            <div class="stat-box">
+                <div class="stat-icon-wrapper" style="background-color: #E8F5F3; color: #00897B;">
+                    <i class="ph-fill ph-copy" style="font-size: 1.5rem;"></i>
+                </div>
+                <div id="home-total-solved" class="stat-value-new" style="color: #00897B;">0</div>
+                <div class="stat-label-new">Attempted</div>
             </div>
-            <div class="stat-card">
-                <div id="home-daily-progress" class="stat-value">0/20</div>
-                <div class="stat-label"><i class="ph-fill ph-pencil-simple text-primary"></i> Today</div>
+            <div class="stat-box">
+                <div class="stat-icon-wrapper" style="background-color: #FCE4EC; color: #E91E63;">
+                    <i class="ph-bold ph-target" style="font-size: 1.5rem;"></i>
+                </div>
+                <div id="home-accuracy" class="stat-value-new" style="color: #E91E63;">0%</div>
+                <div class="stat-label-new">Accuracy</div>
             </div>
-            <div class="stat-card">
-                <div id="home-total-solved" class="stat-value">0</div>
-                <div class="stat-label"><i class="ph-fill ph-check-circle text-success"></i> Total Solved</div>
+            <div class="stat-box">
+                <div class="stat-icon-wrapper" style="background-color: #FFF3E0; color: #FF6D00;">
+                    <i class="ph-fill ph-fire" style="font-size: 1.5rem;"></i>
+                </div>
+                <div class="stat-value-new" style="color: #FF6D00;"><span id="home-streak-count">0</span> 🔥</div>
+                <div class="stat-label-new">Streak</div>
             </div>
-            <div class="stat-card">
-                <div id="home-accuracy" class="stat-value">0%</div>
-                <div class="stat-label"><i class="ph-fill ph-target text-accent"></i> Accuracy</div>
+        </div>
+
+        <div class="daily-goal-widget">
+            <div class="daily-goal-left">
+                <div class="daily-goal-title">Daily Goal</div>
+                <div class="daily-goal-text" id="daily-goal-text">0/20 Questions Today</div>
+                <div class="daily-goal-progress-track">
+                    <div class="daily-goal-progress-fill" id="daily-goal-progress-fill"></div>
+                </div>
+                <div class="daily-goal-status" id="daily-goal-status">0% completed</div>
             </div>
+            <div class="daily-goal-right">
+                <svg width="80" height="80">
+                    <circle class="circle-bg" cx="40" cy="40" r="34"></circle>
+                    <circle class="circle-progress" id="daily-goal-circle" cx="40" cy="40" r="34"></circle>
+                </svg>
+                <div class="daily-goal-percent" id="daily-goal-percent">0%</div>
+            </div>
+        </div>
+
+        <div class="quick-practice-section" style="margin-bottom: 24px;">
+            <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; color: var(--ink-dark);">Quick Practice</h2>
+            <button id="btn-quick-practice" style="width: 100%; background-color: #00897B; color: white; border: none; border-radius: 12px; padding: 16px; font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 137, 123, 0.2);">
+                <i class="ph-fill ph-play"></i> Choose Subject & Practice
+            </button>
         </div>
 
         <div class="home-cards">
@@ -85,6 +116,54 @@
                 <div class="card-badges">
                     <span class="chip chip-green">Analytics</span>
                 </div>
+            </div>
+        </div>
+
+        <!-- Previous Year Questions Section -->
+        <div class="pyq-header-bar" style="background-color: #0066CC; margin: 32px -20px 24px -20px; padding: 16px 20px;">
+            <h2 style="color: white; font-size: 1.4rem; font-weight: 800; margin: 0;">Previous Year Questions</h2>
+        </div>
+        
+        <div class="pyq-section" style="margin-bottom: 32px;">
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--ink-dark); margin-bottom: 4px;">Select Exam</h2>
+            <p style="color: #9E9E9E; font-size: 0.95rem; margin-bottom: 20px;">Past 5 years — 2020 to 2024</p>
+
+            <!-- NEET PG Card -->
+            <div class="pyq-card" style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); display: flex; align-items: flex-start; gap: 16px; position: relative; cursor: pointer;">
+                <div style="background-color: #E3F2FD; width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="ph-fill ph-plus-square" style="color: #0066CC; font-size: 2rem;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--ink-dark); margin-bottom: 4px;">NEET PG</h3>
+                    <p style="color: #9E9E9E; font-size: 0.85rem; margin-bottom: 12px; padding-right: 24px;">National Eligibility cum Entrance Test</p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span style="background-color: #E3F2FD; color: #0066CC; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2024</span>
+                        <span style="background-color: #E3F2FD; color: #0066CC; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2023</span>
+                        <span style="background-color: #E3F2FD; color: #0066CC; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2022</span>
+                        <span style="background-color: #E3F2FD; color: #0066CC; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2021</span>
+                        <span style="background-color: #E3F2FD; color: #0066CC; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2020</span>
+                    </div>
+                </div>
+                <i class="ph-bold ph-caret-right" style="position: absolute; right: 20px; top: 32px; color: #BDBDBD; font-size: 1.2rem;"></i>
+            </div>
+
+            <!-- INICET Card -->
+            <div class="pyq-card" style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); display: flex; align-items: flex-start; gap: 16px; position: relative; cursor: pointer;">
+                <div style="background-color: #E0F2F1; width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="ph-fill ph-bank" style="color: #00897B; font-size: 2rem;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--ink-dark); margin-bottom: 4px;">INICET</h3>
+                    <p style="color: #9E9E9E; font-size: 0.85rem; margin-bottom: 12px; padding-right: 24px;">INI Combined Entrance Test</p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span style="background-color: #E0F2F1; color: #00897B; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2024</span>
+                        <span style="background-color: #E0F2F1; color: #00897B; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2023</span>
+                        <span style="background-color: #E0F2F1; color: #00897B; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2022</span>
+                        <span style="background-color: #E0F2F1; color: #00897B; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2021</span>
+                        <span style="background-color: #E0F2F1; color: #00897B; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px;">2020</span>
+                    </div>
+                </div>
+                <i class="ph-bold ph-caret-right" style="position: absolute; right: 20px; top: 32px; color: #BDBDBD; font-size: 1.2rem;"></i>
             </div>
         </div>
 
@@ -408,12 +487,16 @@
 
     <!-- MODAL: PRO UPGRADE -->
     <div id="modal-pro" class="modal-overlay">
-        <div class="modal-content animate-scale-in w-100 m-3 card" style="max-width: 400px; width:100%; margin:16px; position:relative; background:white;">
-            <div class="flex justify-between align-center mb-3">
-                <h2 class="text-accent m-0 flex align-center gap-1" style="color:var(--accent);"><i class="ph-fill ph-lightning"></i> ExamForge Pro</h2>
-                <button id="modal-pro-close" class="btn btn-ghost btn-sm p-1" style="font-size:1.5rem; background:none; border:none; cursor:pointer;"><i class="ph ph-x"></i></button>
+        <div class="modal-content animate-scale-in w-100 m-3 card" style="max-width: 400px; width:100%; margin:16px; position:relative; background:white; padding: 0; overflow: hidden;">
+            <button id="modal-pro-close" class="btn btn-ghost btn-sm p-1" style="position: absolute; top: 12px; right: 12px; font-size:1.5rem; background:rgba(255,255,255,0.2); color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border:none; cursor:pointer; z-index: 2;"><i class="ph ph-x"></i></button>
+            
+            <div style="background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%); padding: 40px 20px 32px 20px; text-align: center; color: white;">
+                <i class="ph-fill ph-trophy" style="font-size: 3rem; margin-bottom: 16px;"></i>
+                <h2 style="margin: 0 0 8px 0; font-size: 1.6rem; font-weight: 800; color: white; letter-spacing: -0.5px;">Choose Your Success Plan</h2>
+                <p style="margin: 0; font-size: 0.95rem; color: rgba(255,255,255,0.9);">All plans valid for 6 months</p>
             </div>
-            <p class="mb-4 text-ink-secondary">Unlock all premium questions and advanced analytics.</p>
+            
+            <div style="padding: 24px;">
             
             <div class="bg-subtle rounded p-3 mb-4" style="background:var(--bg-subtle); padding:16px; border-radius:var(--radius-sm);">
                 <div class="flex justify-between mb-2 border-bottom pb-2" style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:8px;"><span>Free</span><span class="text-muted">Limited Qs</span></div>
@@ -431,8 +514,117 @@
                 <button type="submit" class="btn btn-primary w-100 border-none font-weight-bold" style="width:100%; background:var(--accent); color:white; border:none; padding:14px; border-radius:var(--radius-sm); font-weight:bold; cursor:pointer;">Pay with Razorpay</button>
             </form>
             <p class="text-small text-muted text-center mt-3" style="font-size:0.8rem; text-align:center; margin-top:12px; color:var(--ink-muted);">This is a mock payment flow for the demo.</p>
+            </div>
         </div>
     </div>
+
+    <!-- SCREEN: PROFILE -->
+    <section id="screen-profile" class="screen" style="background-color: #F8F9FA; min-height: 100vh; display: none;">
+        <div style="background-color: #0066CC; padding: 16px 20px; position: sticky; top: 0; z-index: 10;">
+            <h2 style="color: white; font-size: 1.5rem; font-weight: 800; margin: 0;">Profile</h2>
+        </div>
+        
+        <div style="padding: 40px 20px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div style="width: 120px; height: 120px; background-color: #0066CC; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <i class="ph-fill ph-user" style="color: white; font-size: 4rem;"></i>
+            </div>
+            <h2 style="font-size: 1.8rem; font-weight: 800; color: #212121; margin-bottom: 4px;">Doctor</h2>
+            <p style="color: #9E9E9E; font-size: 1rem; margin-bottom: 16px;">rameshrott1986@gmail.com</p>
+            <span style="background-color: #FFE082; color: #F57F17; font-weight: 700; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem;">Free Plan</span>
+        </div>
+
+        <div style="padding: 0 20px 40px 20px;">
+            <div style="background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); overflow: hidden;">
+                <!-- Menu Item 1 -->
+                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
+                    <i class="ph-fill ph-chart-bar" style="color: #0066CC; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">My Performance</span>
+                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                </div>
+                <!-- Menu Item 2 -->
+                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
+                    <i class="ph-fill ph-bookmark-simple" style="color: #00C853; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Bookmarks</span>
+                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                </div>
+                <!-- Menu Item 3 -->
+                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
+                    <i class="ph-fill ph-medal" style="color: #FFCA28; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Upgrade to Premium</span>
+                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                </div>
+                <!-- Menu Item 4 -->
+                <div id="btn-profile-settings" style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
+                    <i class="ph-fill ph-gear" style="color: #9E9E9E; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Settings</span>
+                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                </div>
+                <!-- Menu Item 5 -->
+                <div style="display: flex; align-items: center; padding: 20px; cursor: pointer;">
+                    <i class="ph-bold ph-sign-out" style="color: #F44336; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Logout</span>
+                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREEN: SETTINGS -->
+    <section id="screen-settings" class="screen" style="background-color: #F8F9FA; min-height: 100vh; display: none;">
+        <div style="background-color: #0066CC; padding: 16px 20px; position: sticky; top: 0; z-index: 10; display: flex; align-items: center;">
+            <button onclick="window.ExamForge.router.navigateTo('screen-profile', 'back')" style="background: none; border: none; color: white; cursor: pointer; display: flex; align-items: center; padding: 0; margin-right: 16px;">
+                <i class="ph-bold ph-arrow-left" style="font-size: 1.4rem;"></i>
+            </button>
+            <h2 style="color: white; font-size: 1.4rem; font-weight: 800; margin: 0;">Settings</h2>
+        </div>
+        
+        <div style="padding: 24px 20px 40px 20px;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #212121; margin: 0 0 16px 4px;">Account</h3>
+            
+            <div style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); margin-bottom: 16px;">
+                <label style="display: block; font-size: 0.95rem; font-weight: 800; color: #212121; margin-bottom: 12px;">Display Name</label>
+                <input type="text" placeholder="Enter your name" style="width: 100%; padding: 16px; background-color: #F5F5F5; border: none; border-radius: 12px; font-size: 1rem; color: #424242; margin-bottom: 16px; box-sizing: border-box;">
+                <button style="width: 100%; background-color: #0066CC; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 1.05rem; font-weight: 600; cursor: pointer;">Save Name</button>
+            </div>
+
+            <div style="background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); margin-bottom: 32px; overflow: hidden;">
+                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE;">
+                    <i class="ph-fill ph-envelope" style="color: #0066CC; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                    <div style="flex: 1;">
+                        <div style="font-size: 1.1rem; font-weight: 500; color: #212121; margin-bottom: 2px;">Email</div>
+                        <div style="font-size: 0.9rem; color: #616161;">rameshrott1986@gmail.com</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; padding: 20px; cursor: pointer;">
+                    <i class="ph-fill ph-lock-key" style="color: #FF9800; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                    <div style="flex: 1;">
+                        <div style="font-size: 1.1rem; font-weight: 500; color: #212121; margin-bottom: 2px;">Reset Password</div>
+                        <div style="font-size: 0.9rem; color: #616161;">Send reset link to your email</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #212121; margin: 0 0 16px 4px;">About</h3>
+            
+            <div style="background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); overflow: hidden;">
+                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE;">
+                    <i class="ph-fill ph-info" style="color: #0066CC; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                    <div style="flex: 1;">
+                        <div style="font-size: 1.1rem; font-weight: 500; color: #212121; margin-bottom: 2px;">App Version</div>
+                        <div style="font-size: 0.9rem; color: #616161;">MedPilot NEET PG v1.0.0</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: flex-start; padding: 20px;">
+                    <i class="ph-fill ph-briefcase" style="color: #009688; font-size: 1.5rem; width: 32px; margin-right: 12px; margin-top: 2px;"></i>
+                    <div style="flex: 1;">
+                        <div style="font-size: 1.1rem; font-weight: 500; color: #212121; margin-bottom: 4px;">About MedPilot</div>
+                        <div style="font-size: 0.9rem; color: #616161; line-height: 1.4;">NEET PG preparation app for medical students</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- MODAL: GOAL SETUP -->
     <div id="modal-goal" class="modal-overlay">

@@ -185,47 +185,33 @@ function renderSubjectStep(container) {
 
 // ── Step 4: Chapter ──
 function renderChapterStep(container) {
-  const filtered = CHAPTERS.filter(c => c.class === selectedClass && c.subject === selectedSubject);
+  const topics = [
+    "ANS, Sleep & Limbic",
+    "Blood",
+    "CNS & Motor",
+    "Cardiovascular",
+    "Cell Physiology",
+    "Endocrinology",
+    "Environmental & Integrated",
+    "GI Physiology",
+    "High-Yield Integrated",
+    "Metabolism & Temperature"
+  ];
 
-  let chaptersDone = 0;
-  let questionsAnswered = 0;
-
-  const cards = filtered.map((ch, index) => {
-    const doneToday = store.getDailyCount(selectedSubject, ch.id);
-    questionsAnswered += doneToday;
-    const isDone = doneToday >= DAILY_LIMIT;
-    if (isDone) chaptersDone++;
-
-    const disabledClass = isDone ? 'disabled' : '';
-    const left = Math.max(0, DAILY_LIMIT - doneToday);
-
+  const cards = topics.map((topic, index) => {
     return `
-      <div class="wizard-card ${disabledClass}" data-chapter-id="${ch.id}" style="margin-bottom:12px; border-radius:8px;">
-        <div class="wizard-card-left">
-          <span>${index + 1}. ${ch.name}</span>
-        </div>
-        <div class="wizard-card-right">
-          <span style="background-color: #f5f3ff; color: #6366f1; padding: 6px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-            <i class="ph-fill ph-pencil-simple"></i> ${left} left
-          </span>
-        </div>
+      <div class="wizard-card" data-chapter-id="mock_${index}" style="margin-bottom:12px; border-radius:12px; display:flex; align-items:center; padding:16px 20px; background:white; cursor:pointer;">
+        <i class="ph-fill ph-book-open" style="color:#00897B; font-size:1.5rem; margin-right:16px;"></i>
+        <span style="flex:1; font-size:1.1rem; font-weight:600; color:var(--ink-dark);">${topic}</span>
+        <i class="ph-bold ph-caret-right" style="color:#BDBDBD; font-size:1.2rem;"></i>
       </div>
     `;
   }).join('');
 
   container.innerHTML = `
-    <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">${selectedSubject} — Select Chapter</h3>
-    
-    <div style="background-color: #d1fae5; border: 1px solid #10b981; border-radius: 8px; padding: 16px; margin-bottom: 24px; display: flex; align-items: flex-start; gap: 12px;">
-      <i class="ph-fill ph-calendar-check" style="color:#6366f1; font-size: 1.5rem; margin-top:2px;"></i>
-      <div>
-        <h4 style="font-weight: 700; color: #065f46; margin-bottom: 4px; font-size: 0.95rem; line-height: 1.2;">Daily Practice — ${DAILY_LIMIT} Questions Per Chapter</h4>
-        <p style="color: #047857; font-size: 0.85rem; margin:0;">${chaptersDone} of ${filtered.length} chapters done today &middot; ${questionsAnswered} questions answered</p>
-      </div>
-    </div>
-
-    <div style="display:flex; flex-direction:column;">
-      ${cards || '<p class="text-muted">No chapters available.</p>'}
+    <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">Select Topic</h3>
+    <div style="background-color: #F8F9FA; padding: 12px; border-radius: 16px;">
+      ${cards || '<p class="text-muted">No topics available.</p>'}
     </div>
     
     <div style="text-align: center; margin-top: 16px; margin-bottom: 24px;">
@@ -235,11 +221,15 @@ function renderChapterStep(container) {
     <button id="wizard-back-btn" class="wizard-btn-back"><i class="ph ph-arrow-left"></i> Back</button>
   `;
 
-  container.querySelectorAll('.wizard-card:not(.disabled)').forEach(card => {
+  container.querySelectorAll('.wizard-card:not(.disabled)').forEach((card, idx) => {
     card.addEventListener('click', () => {
-      const chId = card.dataset.chapterId;
-      selectedChapter = filtered.find(c => c.id === chId) || null;
-      if (!selectedChapter) return;
+      // Create a mock selected chapter based on topic clicked
+      selectedChapter = {
+        id: card.dataset.chapterId,
+        name: topics[idx],
+        subject: selectedSubject,
+        class: selectedClass
+      };
       startMCQArena();
     });
   });
