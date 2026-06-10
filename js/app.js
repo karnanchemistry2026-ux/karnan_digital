@@ -9,6 +9,7 @@ import { initFlashcards, initFlashcardViewer } from './screens/flashcards.js';
 import { initDashboard } from './screens/dashboard.js';
 import { initMistakes } from './screens/mistakes.js';
 import { initLeaderboard } from './screens/leaderboard.js';
+import { initBookmarks } from './screens/bookmarks.js';
 
 // ── Screen initializer map ──
 const screenInitMap = {
@@ -21,7 +22,8 @@ const screenInitMap = {
   'screen-flashcard-viewer': initFlashcardViewer,
   'screen-dashboard': initDashboard,
   'screen-mistakes': initMistakes,
-  'screen-leaderboard': initLeaderboard
+  'screen-leaderboard': initLeaderboard,
+  'screen-bookmarks': initBookmarks
 };
 
 // ── Wrap navigateTo to auto-init screens ──
@@ -64,6 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const navPro = document.getElementById('nav-btn-pro');
   const navProfile = document.getElementById('nav-btn-profile');
   const profileSettingsBtn = document.getElementById('btn-profile-settings');
+  const profilePerformanceBtn = document.getElementById('btn-profile-performance');
+  const profileBookmarksBtn = document.getElementById('btn-profile-bookmarks');
+  const profilePremiumBtn = document.getElementById('btn-profile-premium');
+
+  // Wire up PYQ buttons
+  const btnPyqNeet = document.getElementById('btn-pyq-neet');
+  const btnPyqAiims = document.getElementById('btn-pyq-aiims');
+  
+  if (btnPyqNeet) {
+    btnPyqNeet.addEventListener('click', () => wrappedNavigateTo('screen-test-setup'));
+  }
+  if (btnPyqAiims) {
+    btnPyqAiims.addEventListener('click', () => wrappedNavigateTo('screen-test-setup'));
+  }
 
   if (navLogo) {
     navLogo.addEventListener('click', () => wrappedNavigateTo('screen-home'));
@@ -88,6 +104,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (profileSettingsBtn) {
     profileSettingsBtn.addEventListener('click', () => wrappedNavigateTo('screen-settings'));
+  }
+  if (profilePerformanceBtn) {
+    profilePerformanceBtn.addEventListener('click', () => wrappedNavigateTo('screen-dashboard'));
+  }
+  if (profileBookmarksBtn) {
+    profileBookmarksBtn.addEventListener('click', () => wrappedNavigateTo('screen-bookmarks'));
+  }
+  if (profilePremiumBtn) {
+    profilePremiumBtn.addEventListener('click', () => {
+      const modal = document.getElementById('modal-pro');
+      if (modal) modal.classList.add('active');
+    });
   }
 
   // ── Wire Pro modal ──

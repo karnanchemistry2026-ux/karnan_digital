@@ -120,19 +120,19 @@ function renderClassStep(container) {
   container.innerHTML = `
     <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">Select Class</h3>
     <div class="grid grid-2 gap-3" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-      <div class="wizard-card disabled" data-class="11">
+      <div class="wizard-card" data-class="11">
         <div class="wizard-card-left">
-          <div style="width:20px;height:20px;border-radius:4px;background:#e5e7eb;"></div>
+          <i class="ph-fill ph-book-bookmark text-primary wizard-card-icon"></i>
           <span>Class 11</span>
         </div>
-        <div class="wizard-card-right">Coming soon</div>
+        <div class="wizard-card-right">3 subject(s)</div>
       </div>
       <div class="wizard-card" data-class="12">
         <div class="wizard-card-left">
           <i class="ph-fill ph-book-bookmark text-primary wizard-card-icon"></i>
           <span>Class 12</span>
         </div>
-        <div class="wizard-card-right">1 subject(s)</div>
+        <div class="wizard-card-right">3 subject(s)</div>
       </div>
     </div>
     <button id="wizard-back-btn" class="wizard-btn-back"><i class="ph ph-arrow-left"></i> Back</button>
@@ -157,21 +157,21 @@ function renderSubjectStep(container) {
           <i class="ph-fill ph-atom" style="color:#8b5cf6; font-size:1.25rem;"></i>
           <span>Physics</span>
         </div>
-        <div class="wizard-card-right">6 ch</div>
+        <div class="wizard-card-right">10 ch</div>
       </div>
-      <div class="wizard-card disabled" style="flex:1; min-width:200px;">
+      <div class="wizard-card" data-subject="Chemistry" style="flex:1; min-width:200px;">
         <div class="wizard-card-left">
-          <i class="ph-fill ph-flask" style="color:#e5e7eb; font-size:1.25rem;"></i>
-          <span style="color:var(--ink-muted);">Chemistry</span>
+          <i class="ph-fill ph-flask" style="color:#10b981; font-size:1.25rem;"></i>
+          <span>Chemistry</span>
         </div>
-        <div class="wizard-card-right">Soon</div>
+        <div class="wizard-card-right">10 ch</div>
       </div>
-      <div class="wizard-card disabled" style="flex:1; min-width:200px;">
+      <div class="wizard-card" data-subject="Biology" style="flex:1; min-width:200px;">
         <div class="wizard-card-left">
-          <i class="ph-fill ph-dna" style="color:#e5e7eb; font-size:1.25rem;"></i>
-          <span style="color:var(--ink-muted);">Biology</span>
+          <i class="ph-fill ph-dna" style="color:#f59e0b; font-size:1.25rem;"></i>
+          <span>Biology</span>
         </div>
-        <div class="wizard-card-right">Soon</div>
+        <div class="wizard-card-right">5 ch</div>
       </div>
     </div>
     <button id="wizard-back-btn" class="wizard-btn-back"><i class="ph ph-arrow-left"></i> Back</button>
@@ -188,33 +188,18 @@ function renderSubjectStep(container) {
 
 // ── Step 4: Chapter ──
 function renderChapterStep(container) {
-  const topics = [
-    "ANS, Sleep & Limbic",
-    "Blood",
-    "CNS & Motor",
-    "Cardiovascular",
-    "Cell Physiology",
-    "Endocrinology",
-    "Environmental & Integrated",
-    "GI Physiology",
-    "High-Yield Integrated",
-    "Metabolism & Temperature"
-  ];
-
-  const cards = topics.map((topic, index) => {
-    return `
-      <div class="wizard-card" data-chapter-id="mock_${index}" style="margin-bottom:12px; border-radius:12px; display:flex; align-items:center; padding:16px 20px; background:white; cursor:pointer;">
-        <i class="ph-fill ph-book-open" style="color:#00897B; font-size:1.5rem; margin-right:16px;"></i>
-        <span style="flex:1; font-size:1.1rem; font-weight:600; color:var(--ink-dark);">${topic}</span>
-        <i class="ph-bold ph-caret-right" style="color:#BDBDBD; font-size:1.2rem;"></i>
-      </div>
-    `;
-  }).join('');
+  const filteredChapters = CHAPTERS.filter(c => c.subject === selectedSubject && c.class === selectedClass);
 
   container.innerHTML = `
-    <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">Select Topic</h3>
-    <div style="background-color: #F8F9FA; padding: 12px; border-radius: 16px;">
-      ${cards || '<p class="text-muted">No topics available.</p>'}
+    <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">Select Chapter</h3>
+    <div style="background-color: #F8F9FA; padding: 12px; border-radius: 16px; max-height:400px; overflow-y:auto;">
+      ${filteredChapters.length === 0 ? '<p class="text-muted text-center p-3">No chapters available.</p>' : filteredChapters.map(ch => `
+        <div class="wizard-card chapter-card" data-id="${ch.id}" style="margin-bottom:12px; border-radius:12px; display:flex; align-items:center; padding:16px 20px; background:white; cursor:pointer;">
+          <i class="ph-fill ph-book-open" style="color:#00897B; font-size:1.5rem; margin-right:16px;"></i>
+          <span style="flex:1; font-size:1.1rem; font-weight:600; color:var(--ink-dark);">${ch.name}</span>
+          <i class="ph-bold ph-caret-right" style="color:#BDBDBD; font-size:1.2rem;"></i>
+        </div>
+      `).join('')}
     </div>
     
     <div style="text-align: center; margin-top: 16px; margin-bottom: 24px;">
@@ -224,15 +209,10 @@ function renderChapterStep(container) {
     <button id="wizard-back-btn" class="wizard-btn-back"><i class="ph ph-arrow-left"></i> Back</button>
   `;
 
-  container.querySelectorAll('.wizard-card:not(.disabled)').forEach((card, idx) => {
+  container.querySelectorAll('.chapter-card').forEach(card => {
     card.addEventListener('click', () => {
-      // Create a mock selected chapter based on topic clicked
-      selectedChapter = {
-        id: card.dataset.chapterId,
-        name: topics[idx],
-        subject: selectedSubject,
-        class: selectedClass
-      };
+      const chId = card.dataset.id;
+      selectedChapter = CHAPTERS.find(c => c.id === chId);
       startMCQArena();
     });
   });
