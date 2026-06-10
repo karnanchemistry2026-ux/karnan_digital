@@ -1,5 +1,6 @@
-import { db } from './firebase-config.js';
+import { db, auth } from './firebase-config.js';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const QUESTIONS_COLLECTION = "questions";
 
@@ -20,16 +21,29 @@ let editingId = null;
 
 // Initialize
 async function init() {
-    try {
-        await fetchQuestions();
-    } catch (e) {
-        console.error("Firebase Initialization Error:", e);
-        loadingState.style.display = 'none';
-        warningBanner.style.display = 'block';
-        if(e.message.includes("API key")) {
-            warningBanner.innerHTML = `<h3 style="margin-top:0;">Firebase API Key Missing!</h3><p style="margin-bottom:0;">Please update <code>js/firebase-config.js</code> with your actual Firebase configuration.</p>`;
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            // User is logged in, fetch questions
+            try {
+                await fetchQuestions();
+            } catch (e) {
+                console.error("Firebase Initialization Error:", e);
+                loadingState.style.display = 'none';
+                warningBanner.style.display = 'block';
+                if(e.message.includes("API key")) {
+                    warningBanner.innerHTML = `<h3 style="margin-top:0;">Firebase API Key Missing!</h3><p style="margin-bottom:0;">Please update <code>js/firebase-config.js</code> with your actual Firebase configuration.</p>`;
+                } else if(e.message.includes("Missing or insufficient permissions")) {
+                    warningBanner.innerHTML = `<h3 style="margin-top:0;">Access Denied!</h3><p style="margin-bottom:0;">You are logged in, but you do not have Admin permissions to view or edit the database.</p>`;
+                }
+            }
+        } else {
+            // Not logged in
+            loadingState.style.display = 'none';
+            warningBanner.style.display = 'block';
+            warningBanner.innerHTML = `<h3 style="margin-top:0;">Authentication Required</h3><p style="margin-bottom:0;">You must <a href="/index.html#screen-auth" style="color:var(--primary); font-weight:bold;">Log In</a> to access the Admin Dashboard.</p>`;
+            questionsList.innerHTML = '';
         }
-    }
+    });
 }
 
 // Fetch all questions from Firestore
