@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/screens.css">
+    <link rel="stylesheet" href="css/desktop-layout.css">
     <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
@@ -431,54 +432,60 @@
             <h2>My Dashboard</h2>
         </div>
 
-        <!-- NEW GOAL ENGINE UI -->
-        <div class="card mb-4 bg-primary-light border-primary p-4" style="border: 1px solid var(--border-focus); background: var(--primary-light);">
-            <div class="flex justify-between align-center mb-3">
-                <h3 class="m-0 flex align-center gap-2"><i class="ph-fill ph-crosshair text-primary"></i> Target Goal</h3>
-                <button id="dash-edit-goal-btn" class="btn btn-sm btn-outline text-primary border-primary">Edit</button>
-            </div>
-            <div class="grid grid-2 gap-3 text-center mb-3" style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <div class="p-3 bg-white rounded border">
-                    <div class="text-small text-muted mb-1">Target Score</div>
-                    <div id="dash-target-score" class="h2 text-primary font-weight-bold" style="margin:0;">650</div>
+        <div class="dashboard-desktop-layout">
+            <div class="dashboard-col-main">
+                <!-- NEW GOAL ENGINE UI -->
+                <div class="card bg-primary-light border-primary p-4" style="border: 1px solid var(--border-focus); background: var(--primary-light);">
+                    <div class="flex justify-between align-center mb-3">
+                        <h3 class="m-0 flex align-center gap-2"><i class="ph-fill ph-crosshair text-primary"></i> Target Goal</h3>
+                        <button id="dash-edit-goal-btn" class="btn btn-sm btn-outline text-primary border-primary">Edit</button>
+                    </div>
+                    <div class="grid grid-2 gap-3 text-center mb-3" style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="p-3 bg-white rounded border">
+                            <div class="text-small text-muted mb-1">Target Score</div>
+                            <div id="dash-target-score" class="h2 text-primary font-weight-bold" style="margin:0;">650</div>
+                        </div>
+                        <div class="p-3 bg-white rounded border">
+                            <div class="text-small text-muted mb-1">Target College</div>
+                            <div id="dash-target-college" class="h3 font-weight-bold" style="margin:0; font-size:1.1rem;">AIIMS Delhi</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-small text-ink-secondary text-center p-2 rounded bg-white border">
+                        Current Avg: <strong id="dash-current-avg">--</strong>/720. Status: <span id="dash-goal-status" class="font-weight-bold">--</span>
+                    </div>
                 </div>
-                <div class="p-3 bg-white rounded border">
-                    <div class="text-small text-muted mb-1">Target College</div>
-                    <div id="dash-target-college" class="h3 font-weight-bold" style="margin:0; font-size:1.1rem;">AIIMS Delhi</div>
+
+                <div class="card p-4">
+                    <h3 class="mb-4 text-center">Subject Accuracy</h3>
+                    <div class="accuracy-rings" style="height: 200px; width: 100%; display: flex; justify-content: center;">
+                        <canvas id="dash-accuracy-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-2 gap-3" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                    <div class="card bg-success-light border-success p-3" style="background:var(--success-light); border:1px solid var(--success);">
+                        <h3 class="text-success mb-2 flex align-center gap-1" style="color:var(--success); font-size:1rem;"><i class="ph-fill ph-trend-up"></i> Best</h3>
+                        <ul id="dash-best-chapters" class="pl-3 text-small m-0" style="padding-left:16px; font-size:0.85rem; margin:0;"></ul>
+                    </div>
+                    <div class="card bg-error-light border-error p-3" style="background:var(--error-light); border:1px solid var(--error);">
+                        <h3 class="text-error mb-2 flex align-center gap-1" style="color:var(--error); font-size:1rem;"><i class="ph-fill ph-warning-circle"></i> Needs Work</h3>
+                        <ul id="dash-weak-chapters" class="pl-3 text-small m-0" style="padding-left:16px; font-size:0.85rem; margin:0;"></ul>
+                    </div>
                 </div>
             </div>
-            <div class="mt-3 text-small text-ink-secondary text-center p-2 rounded bg-white border">
-                Current Avg: <strong id="dash-current-avg">--</strong>/720. Status: <span id="dash-goal-status" class="font-weight-bold">--</span>
-            </div>
-        </div>
 
-        <div class="card mb-4 p-4 mt-4">
-            <h3 class="mb-3 text-center">7-Day Streak</h3>
-            <div id="dash-streak-calendar" class="streak-calendar flex justify-center gap-2" style="display:flex; justify-content:center; gap:8px;">
-                <!-- Populated by JS -->
-            </div>
-        </div>
+            <div class="dashboard-col-side">
+                <div class="card p-4">
+                    <h3 class="mb-3 text-center">7-Day Streak</h3>
+                    <div id="dash-streak-calendar" class="streak-calendar flex justify-center gap-2" style="display:flex; justify-content:center; gap:8px;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
 
-        <div class="card mb-4 text-center p-4">
-            <h3 class="mb-3">Total Questions Solved</h3>
-            <div id="dash-total-solved" class="text-primary font-weight-bold" style="font-size: 3rem; color: var(--primary);">0</div>
-        </div>
-
-        <div class="card mb-4 p-4">
-            <h3 class="mb-4 text-center">Subject Accuracy</h3>
-            <div class="accuracy-rings" style="height: 200px; width: 100%; display: flex; justify-content: center;">
-                <canvas id="dash-accuracy-chart"></canvas>
-            </div>
-        </div>
-
-        <div class="grid grid-2 gap-3 mb-4" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-            <div class="card bg-success-light border-success p-3" style="background:var(--success-light); border:1px solid var(--success);">
-                <h3 class="text-success mb-2 flex align-center gap-1" style="color:var(--success); font-size:1rem;"><i class="ph-fill ph-trend-up"></i> Best</h3>
-                <ul id="dash-best-chapters" class="pl-3 text-small m-0" style="padding-left:16px; font-size:0.85rem; margin:0;"></ul>
-            </div>
-            <div class="card bg-error-light border-error p-3" style="background:var(--error-light); border:1px solid var(--error);">
-                <h3 class="text-error mb-2 flex align-center gap-1" style="color:var(--error); font-size:1rem;"><i class="ph-fill ph-warning-circle"></i> Needs Work</h3>
-                <ul id="dash-weak-chapters" class="pl-3 text-small m-0" style="padding-left:16px; font-size:0.85rem; margin:0;"></ul>
+                <div class="card text-center p-4">
+                    <h3 class="mb-3">Total Questions Solved</h3>
+                    <div id="dash-total-solved" class="text-primary font-weight-bold" style="font-size: 3rem; color: var(--primary);">0</div>
+                </div>
             </div>
         </div>
     </section>
@@ -561,43 +568,44 @@
 
     <!-- SCREEN: PROFILE -->
     <section id="screen-profile" class="screen" style="background-color: #F8F9FA; min-height: 100vh; display: none;">
-        <div style="background-color: #0066CC; padding: 16px 20px; position: sticky; top: 0; z-index: 10;">
+        <div style="background-color: #0066CC; padding: 16px 20px; position: sticky; top: 0; z-index: 10; border-radius: var(--radius-sm);">
             <h2 style="color: white; font-size: 1.5rem; font-weight: 800; margin: 0;">Profile</h2>
         </div>
         
-        <div style="padding: 40px 20px; display: flex; flex-direction: column; align-items: center; text-align: center;">
-            <div style="width: 120px; height: 120px; background-color: #0066CC; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-                <i class="ph-fill ph-user" style="color: white; font-size: 4rem;"></i>
+        <div class="profile-desktop-layout">
+            <div style="padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                <div style="width: 120px; height: 120px; background-color: #0066CC; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <i class="ph-fill ph-user" style="color: white; font-size: 4rem;"></i>
+                </div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: #212121; margin-bottom: 4px;">Doctor</h2>
+                <p style="color: #9E9E9E; font-size: 1rem; margin-bottom: 16px;">rameshrott1986@gmail.com</p>
+                <span style="background-color: #FFE082; color: #F57F17; font-weight: 700; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem;">Free Plan</span>
             </div>
-            <h2 style="font-size: 1.8rem; font-weight: 800; color: #212121; margin-bottom: 4px;">Doctor</h2>
-            <p style="color: #9E9E9E; font-size: 1rem; margin-bottom: 16px;">rameshrott1986@gmail.com</p>
-            <span style="background-color: #FFE082; color: #F57F17; font-weight: 700; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem;">Free Plan</span>
-        </div>
 
-        <div style="padding: 0 20px 40px 20px;">
-            <div style="background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); overflow: hidden;">
-                <!-- Menu Item 1 -->
-                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
-                    <i class="ph-fill ph-chart-bar" style="color: #0066CC; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">My Performance</span>
-                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
-                </div>
-                <!-- Menu Item 2 -->
-                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
-                    <i class="ph-fill ph-bookmark-simple" style="color: #00C853; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Bookmarks</span>
-                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
-                </div>
-                <!-- Menu Item 3 -->
-                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
-                    <i class="ph-fill ph-medal" style="color: #FFCA28; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Upgrade to Premium</span>
-                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
-                </div>
-                <!-- Menu Item 4 -->
-                <div id="btn-profile-settings" style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
-                    <i class="ph-fill ph-gear" style="color: #9E9E9E; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Settings</span>
+            <div style="padding: 0;">
+                <div style="background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); overflow: hidden;">
+                    <!-- Menu Item 1 -->
+                    <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
+                        <i class="ph-fill ph-chart-bar" style="color: #0066CC; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                        <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">My Performance</span>
+                        <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                    </div>
+                    <!-- Menu Item 2 -->
+                    <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
+                        <i class="ph-fill ph-bookmark-simple" style="color: #00C853; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                        <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Bookmarks</span>
+                        <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                    </div>
+                    <!-- Menu Item 3 -->
+                    <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
+                        <i class="ph-fill ph-medal" style="color: #FFCA28; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                        <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Upgrade to Premium</span>
+                        <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                    </div>
+                    <!-- Menu Item 4 -->
+                    <div id="btn-profile-settings" style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
+                        <i class="ph-fill ph-gear" style="color: #9E9E9E; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
+                        <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Settings</span>
                     <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
                 </div>
                 <!-- Menu Item 5 -->

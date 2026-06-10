@@ -1,0 +1,45 @@
+
+/* ═══════════════════════════════════════════════
+   DESKTOP RESPONSIVE LAYOUT (NEW)
+   ═══════════════════════════════════════════════ */
+@media (min-width: 800px) {
+  /* Dashboard */
+  .dashboard-desktop-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  
+  .dashboard-col-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .dashboard-col-side {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Reset some hardcoded margins for desktop */
+  #screen-dashboard .card {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+  }
+  #screen-dashboard .grid.grid-2 {
+    margin-bottom: 0 !important;
+  }
+
+  /* Profile */
+  .profile-desktop-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 40px;
+    align-items: start;
+  }
+}
