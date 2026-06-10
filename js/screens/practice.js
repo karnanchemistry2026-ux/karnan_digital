@@ -6,6 +6,9 @@ import { createMidnightTimer } from '../utils/timer.js';
 import { QUESTIONS } from '../data/questions.js';
 import { CHAPTERS } from '../data/chapters.js';
 
+import { db } from '../firebase-config.js';
+import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 // ── Module state ──
 let currentStep = 1;
 let selectedLanguage = 'English';
@@ -237,20 +240,39 @@ function renderChapterStep(container) {
 }
 
 // ── Step 5: MCQ Arena ──
-function startMCQArena() {
-  // Filter questions for this chapter
-  questions = QUESTIONS.filter(q =>
-    q.subject === selectedSubject &&
-    q.chapter === (selectedChapter ? selectedChapter.name : '')
-  );
+async function startMCQArena() {
+  getArena().innerHTML = '<div style="text-align:center; padding:40px;"><i class="ph-bold ph-spinner ph-spin" style="font-size:2rem; color:var(--accent);"></i><p>Loading questions...</p></div>';
+  showArena();
+
+  let liveQuestions = [];
+  try {
+    const q = query(
+      collection(db, "questions"), 
+      where("subject", "==", selectedSubject),
+      where("chapter", "==", selectedChapter ? selectedChapter.name : '')
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      liveQuestions.push({ id: doc.id, ...doc.data() });
+    });
+  } catch (err) {
+    console.warn("Firebase fetch failed, falling back to local static questions:", err);
+  }
+
+  // Fallback to static if Firebase is empty/failed
+  if (liveQuestions.length === 0) {
+    liveQuestions = QUESTIONS.filter(q =>
+      q.subject === selectedSubject &&
+      q.chapter === (selectedChapter ? selectedChapter.name : '')
+    );
+  }
 
   // Limit to remaining daily quota
   const doneToday = store.getDailyCount(selectedSubject, selectedChapter.id);
   const remaining = Math.max(0, DAILY_LIMIT - doneToday);
-  questions = questions.slice(0, remaining);
+  questions = liveQuestions.slice(0, remaining);
 
   if (questions.length === 0) {
-    // All done for today
     showDailyComplete();
     return;
   }
@@ -259,7 +281,52 @@ function startMCQArena() {
   userAnswers = questions.map(() => ({ selectedOption: null, answered: false }));
   currentQuestionIndex = 0;
 
-  showArena();
+  getArena().innerHTML = `
+    <!-- Top Nav -->
+    <div class="flex justify-between align-center p-3 border-bottom bg-white" style="position:sticky; top:0; z-index:10;">
+      <button id="mcq-close-btn" class="btn btn-ghost btn-sm p-1"><i class="ph-bold ph-x" style="font-size:1.5rem;"></i></button>
+      <div class="flex align-center gap-2">
+        <span id="mcq-counter" class="font-weight-bold">1 / 10</span>
+      </div>
+      <button class="btn btn-ghost btn-sm p-1"><i class="ph-bold ph-bookmark-simple" style="font-size:1.5rem;"></i></button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="p-3">
+      <!-- Progress -->
+      <div class="mb-3">
+        <span id="mcq-subject-chip" class="text-small font-weight-bold text-accent bg-subtle p-1 rounded d-inline-block mb-2">Subject</span>
+        <div class="progress-container w-100 bg-subtle rounded overflow-hidden" style="height: 6px;">
+          <div id="mcq-progress-bar" class="progress-bar bg-accent h-100" style="width: 10%; transition: width 0.3s;"></div>
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <div id="mcq-question-text" class="font-weight-bold mb-4" style="font-size: 1.15rem; line-height: 1.5; color: var(--ink);">
+        Question text here?
+      </div>
+
+      <!-- Options -->
+      <div id="mcq-options-list" class="flex flex-col gap-2 mb-4">
+        <!-- populated by JS -->
+      </div>
+
+      <!-- Explanation Box -->
+      <div id="mcq-explanation" class="card bg-subtle mb-4" style="display:none; border: 1px solid var(--border);">
+        <div class="font-weight-bold flex align-center gap-1 mb-2 text-accent">
+          <i class="ph-fill ph-lightbulb"></i> Explanation
+        </div>
+        <p id="mcq-explanation-text" class="text-small m-0 text-ink-secondary" style="line-height:1.5;"></p>
+      </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="flex justify-between align-center p-3 border-top bg-white" style="position:fixed; bottom:0; left:0; right:0;">
+      <button id="mcq-prev-btn" class="btn btn-outline flex align-center gap-1 disabled" style="border-radius:24px; padding:8px 16px;"><i class="ph-bold ph-caret-left"></i> Prev</button>
+      <button id="mcq-next-btn" class="btn btn-primary flex align-center gap-1" style="border-radius:24px; padding:8px 16px;">Next <i class="ph-bold ph-caret-right"></i></button>
+    </div>
+  `;
+
   renderQuestion();
   wireArenaControls();
 }
