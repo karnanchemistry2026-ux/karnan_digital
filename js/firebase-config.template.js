@@ -3,13 +3,13 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase
 import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAds2i0TtoiFhnLEc5D6VW9ybRLin2mxRo",
-  authDomain: "karnan-3c0bd.firebaseapp.com",
-  projectId: "karnan-3c0bd",
-  storageBucket: "karnan-3c0bd.firebasestorage.app",
-  messagingSenderId: "727953520852",
-  appId: "1:727953520852:web:68a43a343628904ffea341",
-  measurementId: "G-G8D4MQ9HZ3"
+  apiKey: "FIREBASE_API_KEY",
+  authDomain: "FIREBASE_AUTH_DOMAIN",
+  projectId: "FIREBASE_PROJECT_ID",
+  storageBucket: "FIREBASE_STORAGE_BUCKET",
+  messagingSenderId: "FIREBASE_MESSAGING_SENDER_ID",
+  appId: "FIREBASE_APP_ID",
+  measurementId: "FIREBASE_MEASUREMENT_ID"
 };
 
 // Initialize Firebase
