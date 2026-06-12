@@ -24,7 +24,8 @@ const screenInitMap = {
   'screen-mistakes': initMistakes,
   'screen-leaderboard': initLeaderboard,
   'screen-bookmarks': initBookmarks,
-  'screen-admin': initAdmin // New admin screen
+  'screen-admin': initAdmin, // New admin screen
+  'screen-contact': () => {} // No init needed for contact
 };
 
 import { currentUser } from './auth.js';
@@ -175,6 +176,10 @@ document.addEventListener('DOMContentLoaded', () => {
     profilePremiumBtn.addEventListener('click', () => {
       window.ExamForge.showPremiumModal('Premium Access');
     });
+  }
+  const profileContactBtn = document.getElementById('btn-profile-contact');
+  if (profileContactBtn) {
+    profileContactBtn.addEventListener('click', () => wrappedNavigateTo('screen-contact'));
   }
 
   // Admin button

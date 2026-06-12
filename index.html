@@ -438,90 +438,126 @@
     </section>
 
     <!-- SCREEN: DASHBOARD -->
-    <section id="screen-dashboard" class="screen">
-        <div class="flex align-center gap-2 mb-4">
-            <button class="btn btn-back" onclick="window.ExamForge.router.goBack()"><i class="ph ph-arrow-left"></i> Back</button>
-            <h2>My Dashboard</h2>
-        </div>
+    <section id="screen-dashboard" class="screen" style="background-color: #F8F9FA; min-height: 100vh;">
+        <div style="max-width:800px; margin:0 auto; padding:24px 20px;">
+            <h2 style="font-size:1.1rem; font-weight:800; color:#1E1B4B; margin-bottom:16px; display:flex; align-items:center; gap:8px;"><i class="ph-fill ph-chart-bar" style="color:#6366F1;"></i> My Dashboard</h2>
 
-        <div class="dashboard-desktop-layout">
-            <div class="dashboard-col-main">
-                <!-- NEW GOAL ENGINE UI -->
-                <div class="card bg-primary-light border-primary p-4" style="border: 1px solid var(--border-focus); background: var(--primary-light);">
-                    <div class="flex justify-between align-center mb-3">
-                        <h3 class="m-0 flex align-center gap-2"><i class="ph-fill ph-crosshair text-primary"></i> Target Goal</h3>
-                        <button id="dash-edit-goal-btn" class="btn btn-sm btn-outline text-primary border-primary">Edit</button>
-                    </div>
-                    <div class="grid grid-2 gap-3 text-center mb-3" style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                        <div class="p-3 bg-white rounded border">
-                            <div class="text-small text-muted mb-1">Target Score</div>
-                            <div id="dash-target-score" class="h2 text-primary font-weight-bold" style="margin:0;">650</div>
-                        </div>
-                        <div class="p-3 bg-white rounded border">
-                            <div class="text-small text-muted mb-1">Target College</div>
-                            <div id="dash-target-college" class="h3 font-weight-bold" style="margin:0; font-size:1.1rem;">AIIMS Delhi</div>
-                        </div>
-                    </div>
-                    <div class="mt-3 text-small text-ink-secondary text-center p-2 rounded bg-white border">
-                        Current Avg: <strong id="dash-current-avg">--</strong>/720. Status: <span id="dash-goal-status" class="font-weight-bold">--</span>
-                    </div>
+            <!-- Stat Grid -->
+            <div class="grid grid-2 gap-3 mb-4" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="font-size:1.5rem; font-weight:800; color:#6C48E1;">20</div>
+                    <div style="font-size:0.75rem; color:#6B7280; font-weight:600;">Questions</div>
                 </div>
-
-                <div class="card p-4">
-                    <h3 class="mb-4 text-center">Subject Accuracy</h3>
-                    <div class="accuracy-rings" style="height: 200px; width: 100%; display: flex; justify-content: center;">
-                        <canvas id="dash-accuracy-chart"></canvas>
-                    </div>
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="font-size:1.5rem; font-weight:800; color:#10B981;">6</div>
+                    <div style="font-size:0.75rem; color:#6B7280; font-weight:600; display:flex; align-items:center; justify-content:center; gap:4px;"><i class="ph-bold ph-check-square" style="color:#10B981;"></i> Correct</div>
                 </div>
-
-                <div class="grid grid-2 gap-3" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-                    <div class="card bg-success-light border-success p-3" style="background:var(--success-light); border:1px solid var(--success);">
-                        <h3 class="text-success mb-2 flex align-center gap-1" style="color:var(--success); font-size:1rem;"><i class="ph-fill ph-trend-up"></i> Best</h3>
-                        <ul id="dash-best-chapters" class="pl-3 text-small m-0" style="padding-left:16px; font-size:0.85rem; margin:0;"></ul>
-                    </div>
-                    <div class="card bg-error-light border-error p-3" style="background:var(--error-light); border:1px solid var(--error);">
-                        <h3 class="text-error mb-2 flex align-center gap-1" style="color:var(--error); font-size:1rem;"><i class="ph-fill ph-warning-circle"></i> Needs Work</h3>
-                        <ul id="dash-weak-chapters" class="pl-3 text-small m-0" style="padding-left:16px; font-size:0.85rem; margin:0;"></ul>
-                    </div>
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="font-size:1.5rem; font-weight:800; color:#EF4444;">14</div>
+                    <div style="font-size:0.75rem; color:#6B7280; font-weight:600; display:flex; align-items:center; justify-content:center; gap:4px;"><i class="ph-bold ph-x-square" style="color:#EF4444;"></i> Wrong</div>
+                </div>
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="font-size:1.5rem; font-weight:800; color:#1E1B4B;">30%</div>
+                    <div style="font-size:0.75rem; color:#6B7280; font-weight:600; display:flex; align-items:center; justify-content:center; gap:4px;"><i class="ph-bold ph-target" style="color:#1E1B4B;"></i> Accuracy</div>
+                </div>
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="font-size:1rem; font-weight:800; color:#1E1B4B;">Physics</div>
+                    <div style="font-size:0.75rem; color:#6B7280; font-weight:600; display:flex; align-items:center; justify-content:center; gap:4px;"><i class="ph-fill ph-fire" style="color:#F59E0B;"></i> Strong Subject</div>
+                </div>
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="font-size:1rem; font-weight:800; color:#1E1B4B;">-</div>
+                    <div style="font-size:0.75rem; color:#6B7280; font-weight:600; display:flex; align-items:center; justify-content:center; gap:4px;"><i class="ph-fill ph-warning-circle" style="color:#3B82F6;"></i> Weak Subject</div>
+                </div>
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="font-size:1rem; font-weight:800; color:#1E1B4B;">Chapter 6</div>
+                    <div style="font-size:0.75rem; color:#6B7280; font-weight:600; display:flex; align-items:center; justify-content:center; gap:4px;"><i class="ph-fill ph-star" style="color:#FBBF24;"></i> Best Chapter</div>
+                </div>
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="font-size:1.2rem; font-weight:800; color:#1E1B4B;">0h 0m</div>
+                    <div style="font-size:0.75rem; color:#6B7280; font-weight:600; display:flex; align-items:center; justify-content:center; gap:4px;"><i class="ph-bold ph-clock" style="color:#8B5CF6;"></i> Study Time</div>
                 </div>
             </div>
 
-            <div class="dashboard-col-side">
-                <div class="card p-4">
-                    <h3 class="mb-3 text-center">7-Day Streak</h3>
-                    <div id="dash-streak-calendar" class="streak-calendar flex justify-center gap-2" style="display:flex; justify-content:center; gap:8px;">
-                        <!-- Populated by JS -->
+            <!-- Subject-wise Accuracy -->
+            <div style="background:white; border-radius:16px; border:1px solid #E5E7EB; padding:20px; margin-bottom:24px; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                <h3 style="font-size:0.9rem; font-weight:800; color:#1E1B4B; margin:0 0 16px 0; display:flex; align-items:center; gap:8px;"><i class="ph-fill ph-chart-line-up" style="color:#10B981;"></i> Subject-wise Accuracy</h3>
+                
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <div style="font-size:0.85rem; font-weight:600; color:#4B5563; width:60px;">Physics</div>
+                    <div style="flex:1; height:6px; background:#F3F4F6; border-radius:4px; overflow:hidden;">
+                        <div style="width:30%; height:100%; background:#EF4444; border-radius:4px;"></div>
                     </div>
+                    <div style="font-size:0.75rem; font-weight:600; color:#F59E0B; display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-thumbs-up"></i> Keep Going</div>
                 </div>
+            </div>
 
-                <div class="card text-center p-4">
-                    <h3 class="mb-3">Total Questions Solved</h3>
-                    <div id="dash-total-solved" class="text-primary font-weight-bold" style="font-size: 3rem; color: var(--primary);">0</div>
+            <!-- Best Chapters -->
+            <div style="background:white; border-radius:16px; border:1px solid #E5E7EB; padding:20px; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                <h3 style="font-size:0.9rem; font-weight:800; color:#1E1B4B; margin:0 0 16px 0; display:flex; align-items:center; gap:8px;"><i class="ph-fill ph-medal" style="color:#FBBF24;"></i> Best Chapters</h3>
+                
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <div style="font-size:0.85rem; font-weight:600; color:#4B5563; width:70px;">Chapter 6</div>
+                    <div style="flex:1; height:6px; background:#F3F4F6; border-radius:4px; overflow:hidden;">
+                        <div style="width:30%; height:100%; background:#EF4444; border-radius:4px;"></div>
+                    </div>
+                    <div style="font-size:0.85rem; font-weight:700; color:#1E1B4B;">30%</div>
                 </div>
+            </div>
+
+            <div style="margin-top:24px;">
+                <button class="btn btn-outline" onclick="window.ExamForge.router.goBack()" style="border-radius:100px; padding:8px 24px; font-size:0.85rem; font-weight:600;"><i class="ph-bold ph-arrow-left"></i> Home</button>
             </div>
         </div>
     </section>
 
     <!-- SCREEN: MISTAKES -->
-    <section id="screen-mistakes" class="screen">
-        <div class="flex align-center gap-2 mb-4">
-            <button class="btn btn-back" onclick="window.ExamForge.router.goBack()"><i class="ph ph-arrow-left"></i> Back</button>
-            <h2>My Mistakes</h2>
-        </div>
+    <section id="screen-mistakes" class="screen" style="background-color: #F8F9FA; min-height: 100vh;">
+        <div style="max-width:800px; margin:0 auto; padding:24px 20px;">
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <h2 style="font-size:1.2rem; font-weight:800; color:#1E1B4B; margin:0; display:flex; align-items:center; gap:8px;"><i class="ph-fill ph-push-pin" style="color:#EF4444;"></i> My Mistakes</h2>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-sm" style="background:#E0E7FF; color:#4F46E5; border:1px solid #C7D2FE; padding:6px 12px; border-radius:8px; font-weight:600; font-size:0.75rem;"><i class="ph-bold ph-arrows-clockwise"></i> Practice Again</button>
+                    <button class="btn btn-sm" style="background:#FEE2E2; color:#EF4444; border:1px solid #FECACA; padding:6px 12px; border-radius:8px; font-weight:600; font-size:0.75rem;"><i class="ph-bold ph-trash"></i> Clear</button>
+                </div>
+            </div>
 
-        <div id="mistakes-actions" class="mistakes-actions flex gap-2 mb-4 mt-4" style="display:flex; gap:8px;">
-            <button id="mistakes-repractice-btn" class="btn btn-primary flex-1 flex align-center justify-center gap-1" style="flex:1;"><i class="ph ph-arrows-clockwise"></i> Re-practice</button>
-            <button id="mistakes-clear-btn" class="btn btn-outline text-error border-error flex-1 flex align-center justify-center gap-1" style="flex:1; color:var(--error); border-color:var(--error);"><i class="ph ph-trash"></i> Clear All</button>
-        </div>
+            <!-- Single Mistake Card Example -->
+            <div style="background:white; border-radius:12px; border:1px solid #E5E7EB; padding:20px; box-shadow:0 2px 4px rgba(0,0,0,0.02); margin-bottom:16px;">
+                <div style="display:flex; gap:8px; margin-bottom:12px;">
+                    <span style="background:#E0E7FF; color:#4F46E5; padding:2px 8px; border-radius:4px; font-size:0.7rem; font-weight:700;">Physics</span>
+                    <span style="background:#F3F4F6; color:#4B5563; padding:2px 8px; border-radius:4px; font-size:0.7rem; font-weight:700;">Chapter 6</span>
+                </div>
+                
+                <h3 style="font-size:0.95rem; line-height:1.5; font-weight:600; color:#1E1B4B; margin:0 0 12px 0;">1. For a curved surface with non-uniform magnetic field, how is the magnetic flux calculated?</h3>
+                
+                <div style="font-size:0.85rem; font-weight:600; margin-bottom:12px;">
+                    <span style="color:#EF4444;">Your: C) By taking the average of B and multiplying by A</span>
+                    <span style="color:#D1D5DB; margin:0 8px;">-</span>
+                    <span style="color:#10B981;">Correct: D) By summing the dot products of B and dA for all area elements</span>
+                </div>
 
-        <div id="mistakes-empty-state" class="empty-state text-center p-4 card mt-4" style="display:none; padding: 2rem;">
-            <div class="mb-2 text-warning" style="font-size:3rem;"><i class="ph-fill ph-sparkle"></i></div>
-            <h3 class="mb-2">No mistakes yet!</h3>
-            <p class="text-muted">Keep practicing to find your weak areas.</p>
-        </div>
+                <div style="font-size:0.85rem; line-height:1.6; color:#4B5563;">
+                    <span style="color:#F59E0B; font-weight:700;"><i class="ph-fill ph-lightbulb"></i></span> For curved surfaces and non-uniform fields, the surface is divided into small area elements dA. The magnetic flux through each element is B · dA, where B is the magnetic field at that element. The total flux is the sum (or integral) of all these contributions. This generalizes the simple formula for uniform fields.
+                </div>
+            </div>
 
-        <div id="mistakes-list" class="mt-4 flex flex-column gap-3" style="display:flex; flex-direction:column; gap:12px;">
-            <!-- Populated by JS -->
+            <div style="background:white; border-radius:12px; border:1px solid #E5E7EB; padding:20px; box-shadow:0 2px 4px rgba(0,0,0,0.02); margin-bottom:16px;">
+                <div style="display:flex; gap:8px; margin-bottom:12px;">
+                    <span style="background:#E0E7FF; color:#4F46E5; padding:2px 8px; border-radius:4px; font-size:0.7rem; font-weight:700;">Physics</span>
+                    <span style="background:#F3F4F6; color:#4B5563; padding:2px 8px; border-radius:4px; font-size:0.7rem; font-weight:700;">Chapter 6</span>
+                </div>
+                <h3 style="font-size:0.95rem; line-height:1.5; font-weight:600; color:#1E1B4B; margin:0 0 12px 0;">2. What is the constant of proportionality L called in the relation NΦB = LI?</h3>
+                <div style="font-size:0.85rem; font-weight:600; margin-bottom:12px;">
+                    <span style="color:#EF4444;">Your: C) Magnetic permeability</span>
+                    <span style="color:#D1D5DB; margin:0 8px;">-</span>
+                    <span style="color:#10B981;">Correct: B) Self-inductance</span>
+                </div>
+                <div style="font-size:0.85rem; line-height:1.6; color:#4B5563;">
+                    <span style="color:#F59E0B; font-weight:700;"><i class="ph-fill ph-lightbulb"></i></span> The constant of proportionality L is called self-inductance of the coil. It is also called the coefficient of self-induction of the coil.
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -544,21 +580,63 @@
     </section>
 
     <!-- SCREEN: LEADERBOARD -->
-    <section id="screen-leaderboard" class="screen">
-        <div class="flex align-center gap-2 mb-4">
-            <button class="btn btn-back" onclick="window.ExamForge.router.goBack()"><i class="ph ph-arrow-left"></i> Back</button>
-            <h2>Leaderboard</h2>
-        </div>
+    <section id="screen-leaderboard" class="screen" style="background-color: #F8F9FA; min-height: 100vh;">
+        <div style="max-width:800px; margin:0 auto; padding:24px 20px;">
+            <h2 style="font-size:1.1rem; font-weight:800; color:#1E1B4B; margin-bottom:4px; display:flex; align-items:center; gap:8px;"><i class="ph-fill ph-chart-line-up" style="color:#F59E0B;"></i> Weekly Leaderboard</h2>
+            <div style="font-size:0.75rem; color:#6B7280; margin-bottom:20px;">Week of 7 Jun - 13 Jun</div>
 
-        <div class="lb-tabs flex gap-2 mb-4 mt-4" style="display:flex; gap:8px;">
-            <button id="lb-tab-global" class="lb-tab active flex-1 btn btn-outline flex align-center justify-center gap-1" style="flex:1; padding:8px; border-radius:20px; font-weight:600;"><i class="ph ph-globe-hemisphere-west"></i> Global</button>
-            <button id="lb-tab-device" class="lb-tab flex-1 btn btn-outline flex align-center justify-center gap-1" style="flex:1; padding:8px; border-radius:20px; font-weight:600;"><i class="ph ph-device-mobile"></i> Local</button>
-            <button id="lb-tab-history" class="lb-tab flex-1 btn btn-outline flex align-center justify-center gap-1" style="flex:1; padding:8px; border-radius:20px; font-weight:600;"><i class="ph ph-calendar-blank"></i> History</button>
-        </div>
+            <div style="display:flex; gap:8px; margin-bottom:24px;">
+                <button style="background:#6C48E1; color:white; border:none; padding:8px 16px; border-radius:100px; font-weight:700; font-size:0.8rem; display:flex; align-items:center; gap:6px;"><i class="ph-fill ph-globe-hemisphere-west"></i> Global</button>
+                <button style="background:white; color:#6B7280; border:1px solid #E5E7EB; padding:8px 16px; border-radius:100px; font-weight:600; font-size:0.8rem; display:flex; align-items:center; gap:6px;"><i class="ph-bold ph-device-mobile"></i> My Device</button>
+                <button style="background:white; color:#6B7280; border:1px solid #E5E7EB; padding:8px 16px; border-radius:100px; font-weight:600; font-size:0.8rem; display:flex; align-items:center; gap:6px;"><i class="ph-bold ph-clock"></i> History</button>
+            </div>
 
-        <div class="card p-0 overflow-hidden mt-4" style="padding:0; overflow:hidden;">
-            <div id="lb-content">
-                <!-- Populated by JS -->
+            <div style="background:white; border-radius:16px; border:1px solid #E5E7EB; padding:0; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                <table style="width:100%; border-collapse:collapse; text-align:left;">
+                    <thead>
+                        <tr style="border-bottom:1px solid #E5E7EB; color:#6B7280; font-size:0.7rem; font-weight:700;">
+                            <th style="padding:16px; text-transform:uppercase;">#</th>
+                            <th style="padding:16px; text-transform:uppercase;">Name</th>
+                            <th style="padding:16px; text-transform:uppercase;">Score</th>
+                            <th style="padding:16px; text-transform:uppercase;">Correct</th>
+                            <th style="padding:16px; text-transform:uppercase;">Time</th>
+                            <th style="padding:16px; text-transform:uppercase;">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:0.85rem; font-weight:600; color:#1E1B4B;">
+                        <tr style="border-bottom:1px solid #F3F4F6;">
+                            <td style="padding:16px;"><div style="background:#FBBF24; color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem;">1</div></td>
+                            <td style="padding:16px;">Ammu</td>
+                            <td style="padding:16px; color:#6C48E1;">53%</td>
+                            <td style="padding:16px;">8/15</td>
+                            <td style="padding:16px; color:#6B7280;">0m 30s</td>
+                            <td style="padding:16px; color:#6B7280;">12/06/2026</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid #F3F4F6;">
+                            <td style="padding:16px;"><div style="background:#9CA3AF; color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem;">2</div></td>
+                            <td style="padding:16px;">Test</td>
+                            <td style="padding:16px; color:#6C48E1;">47%</td>
+                            <td style="padding:16px;">7/15</td>
+                            <td style="padding:16px; color:#6B7280;">0m 56s</td>
+                            <td style="padding:16px; color:#6B7280;">12/06/2026</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:16px;"><div style="background:#D97706; color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem;">3</div></td>
+                            <td style="padding:16px;">Chandra</td>
+                            <td style="padding:16px; color:#6C48E1;">0%</td>
+                            <td style="padding:16px;">0/60</td>
+                            <td style="padding:16px; color:#6B7280;">1m 2s</td>
+                            <td style="padding:16px; color:#6B7280;">12/06/2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="padding:12px; text-align:center; font-size:0.75rem; color:#6C48E1; font-weight:700; background:#F8F9FA; display:flex; align-items:center; justify-content:center; gap:4px;">
+                    <i class="ph-fill ph-globe-hemisphere-west"></i> Global leaderboard
+                </div>
+            </div>
+
+            <div style="margin-top:24px;">
+                <button class="btn btn-outline" onclick="window.ExamForge.router.goBack()" style="border-radius:100px; padding:8px 24px; font-size:0.85rem; font-weight:600;"><i class="ph-bold ph-arrow-left"></i> Home</button>
             </div>
         </div>
     </section>
@@ -585,6 +663,72 @@
         </div>
     </div>
 
+    <!-- SCREEN: CONTACT US (NEW) -->
+    <section id="screen-contact" class="screen" style="background-color: #F8F9FA; min-height: 100vh;">
+        <div style="max-width:600px; margin:0 auto; padding:24px 20px;">
+            
+            <div style="background-color: #00695C; padding:32px 20px; border-radius:16px; text-align:center; color:white; margin-bottom:16px;">
+                <i class="ph-fill ph-phone-call" style="font-size:2rem; color:#EF4444; margin-bottom:8px;"></i>
+                <h2 style="font-size:1.2rem; font-weight:800; margin:0 0 4px 0;">Contact Us</h2>
+                <p style="font-size:0.85rem; opacity:0.9; margin:0;">We're here to help you succeed in NEET UG!</p>
+            </div>
+
+            <div style="background:white; border-radius:16px; border:1px solid #E5E7EB; padding:0; margin-bottom:16px; overflow:hidden;">
+                <div style="display:flex; align-items:center; padding:16px 20px; border-bottom:1px solid #F3F4F6;">
+                    <div style="background:#E0F2FE; width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-right:16px;"><i class="ph-fill ph-envelope" style="color:#3B82F6; font-size:1.2rem;"></i></div>
+                    <div>
+                        <div style="font-size:0.7rem; color:#6B7280; font-weight:700; text-transform:uppercase;">Email</div>
+                        <div style="font-size:0.9rem; font-weight:700; color:#00695C;">karnanphysics2026@gmail.com</div>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; padding:16px 20px; border-bottom:1px solid #F3F4F6;">
+                    <div style="background:#E0E7FF; width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-right:16px;"><i class="ph-fill ph-device-mobile" style="color:#6366F1; font-size:1.2rem;"></i></div>
+                    <div>
+                        <div style="font-size:0.7rem; color:#6B7280; font-weight:700; text-transform:uppercase;">Phone</div>
+                        <div style="font-size:0.9rem; font-weight:700; color:#00695C;">+91 6381710990</div>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; padding:16px 20px; cursor:pointer;" onclick="window.open('https://wa.me/916381710990', '_blank')">
+                    <div style="background:#D1FAE5; width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-right:16px;"><i class="ph-fill ph-whatsapp-logo" style="color:#10B981; font-size:1.2rem;"></i></div>
+                    <div>
+                        <div style="font-size:0.7rem; color:#6B7280; font-weight:700; text-transform:uppercase;">WhatsApp</div>
+                        <div style="font-size:0.9rem; font-weight:700; color:#00695C; display:flex; align-items:center; gap:4px;">Chat on WhatsApp <i class="ph-bold ph-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background:white; border-radius:16px; border:1px solid #E5E7EB; padding:24px; text-align:center; margin-bottom:16px;">
+                <h3 style="font-size:0.85rem; font-weight:800; color:#1E1B4B; margin:0 0 16px 0; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="ph-fill ph-scan"></i> Scan to WhatsApp</h3>
+                <!-- Mock QR Code -->
+                <div style="width:120px; height:120px; background:white; border:4px solid #1E1B4B; margin:0 auto; display:flex; align-items:center; justify-content:center; border-radius:8px; position:relative;">
+                    <div style="position:absolute; width:10px; height:10px; background:black; top:10px; left:10px;"></div>
+                    <div style="position:absolute; width:10px; height:10px; background:black; top:10px; right:10px;"></div>
+                    <div style="position:absolute; width:10px; height:10px; background:black; bottom:10px; left:10px;"></div>
+                    <div style="width:60%; height:60%; background:repeating-linear-gradient(45deg, #1E1B4B, #1E1B4B 4px, white 4px, white 8px);"></div>
+                </div>
+                <p style="font-size:0.7rem; color:#6B7280; margin:12px 0 0 0; font-weight:600;">Scan with your phone camera to open WhatsApp</p>
+            </div>
+
+            <div style="background:#1E1B4B; border-radius:16px; padding:24px; color:white; margin-bottom:24px;">
+                <div style="background:#FBBF24; color:#A16207; font-size:0.7rem; font-weight:800; display:inline-flex; align-items:center; gap:4px; padding:4px 8px; border-radius:100px; margin-bottom:12px;"><i class="ph-fill ph-star"></i> Premium Service</div>
+                <h3 style="font-size:1.1rem; font-weight:800; margin:0 0 8px 0;">One-on-One Personal Training</h3>
+                <p style="font-size:0.8rem; opacity:0.8; margin:0 0 16px 0; line-height:1.5;">Get personalized NEET UG coaching directly from our expert faculty.</p>
+                <ul style="list-style:none; padding:0; margin:0 0 20px 0; font-size:0.8rem; font-weight:500; display:flex; flex-direction:column; gap:8px;">
+                    <li style="display:flex; align-items:flex-start; gap:8px;"><i class="ph-bold ph-check-square" style="color:#10B981; margin-top:2px;"></i> Customized study plan based on your weaknesses</li>
+                    <li style="display:flex; align-items:flex-start; gap:8px;"><i class="ph-bold ph-check-square" style="color:#10B981; margin-top:2px;"></i> Live doubt-solving sessions (Physics, Chemistry, Biology)</li>
+                    <li style="display:flex; align-items:flex-start; gap:8px;"><i class="ph-bold ph-check-square" style="color:#10B981; margin-top:2px;"></i> Weekly progress reviews & mock test analysis</li>
+                    <li style="display:flex; align-items:flex-start; gap:8px;"><i class="ph-bold ph-check-square" style="color:#10B981; margin-top:2px;"></i> Motivation & exam strategy coaching</li>
+                    <li style="display:flex; align-items:flex-start; gap:8px;"><i class="ph-bold ph-check-square" style="color:#10B981; margin-top:2px;"></i> Direct WhatsApp support from faculty</li>
+                </ul>
+                <button style="width:100%; background:#10B981; color:white; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="ph-fill ph-phone-call"></i> Book a Free Demo Session</button>
+            </div>
+
+            <div>
+                <button class="btn btn-outline" onclick="window.ExamForge.router.goBack()" style="border-radius:100px; padding:8px 24px; font-size:0.85rem; font-weight:600;"><i class="ph-bold ph-arrow-left"></i> Back to Profile</button>
+            </div>
+        </div>
+    </section>
+
     <!-- SCREEN: PROFILE -->
     <section id="screen-profile" class="screen" style="background-color: #F8F9FA; min-height: 100vh;">
         <div style="background-color: #00695C; padding: 24px 20px 48px 20px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
@@ -601,42 +745,42 @@
         </div>
         
         <div style="max-width:600px; margin:-24px auto 0 auto; padding:0 20px 80px 20px; position:relative; z-index:10;">
-            <div style="background:white; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:8px 0; margin-bottom:24px;">
+            <div style="background:white; border-radius:8px; border:1px solid #E5E7EB; padding:0; margin-bottom:24px;">
                 
                 <div id="btn-profile-performance" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer; border-bottom:1px solid #F3F4F6;">
-                    <i class="ph-fill ph-chart-bar" style="font-size:1.4rem; width:32px; color:#3B82F6;"></i>
-                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">My Performance</span>
-                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                    <i class="ph-fill ph-chart-bar" style="font-size:1.2rem; width:28px; color:#3B82F6;"></i>
+                    <span style="flex:1; font-weight:600; font-size:0.9rem; color:#374151;">My Performance</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF; font-size:0.9rem;"></i>
                 </div>
 
                 <div id="btn-profile-bookmarks" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer; border-bottom:1px solid #F3F4F6;">
-                    <i class="ph-fill ph-push-pin" style="font-size:1.4rem; width:32px; color:#EF4444;"></i>
-                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">Bookmarks & Mistakes</span>
-                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                    <i class="ph-fill ph-push-pin" style="font-size:1.2rem; width:28px; color:#EF4444;"></i>
+                    <span style="flex:1; font-weight:600; font-size:0.9rem; color:#374151;">Bookmarks & Mistakes</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF; font-size:0.9rem;"></i>
                 </div>
 
                 <div id="btn-profile-leaderboard" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer; border-bottom:1px solid #F3F4F6;">
-                    <i class="ph-fill ph-trophy" style="font-size:1.4rem; width:32px; color:#D97706;"></i>
-                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">Leaderboard</span>
-                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                    <i class="ph-fill ph-trophy" style="font-size:1.2rem; width:28px; color:#D97706;"></i>
+                    <span style="flex:1; font-weight:600; font-size:0.9rem; color:#374151;">Leaderboard</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF; font-size:0.9rem;"></i>
                 </div>
 
                 <div id="btn-profile-premium" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer; border-bottom:1px solid #F3F4F6;">
-                    <i class="ph-fill ph-star" style="font-size:1.4rem; width:32px; color:#F59E0B;"></i>
-                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">Upgrade to Premium</span>
-                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                    <i class="ph-fill ph-star" style="font-size:1.2rem; width:28px; color:#F59E0B;"></i>
+                    <span style="flex:1; font-weight:600; font-size:0.9rem; color:#374151;">Upgrade to Premium</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF; font-size:0.9rem;"></i>
                 </div>
 
                 <div id="btn-profile-contact" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer;">
-                    <i class="ph-fill ph-phone-call" style="font-size:1.4rem; width:32px; color:#8B5CF6;"></i>
-                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">Contact Us</span>
-                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                    <i class="ph-fill ph-phone-call" style="font-size:1.2rem; width:28px; color:#EF4444;"></i>
+                    <span style="flex:1; font-weight:600; font-size:0.9rem; color:#374151;">Contact Us</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF; font-size:0.9rem;"></i>
                 </div>
 
             </div>
 
-            <button id="btn-profile-logout" style="width:100%; background:white; color:#EF4444; border:1px solid #FECACA; border-radius:12px; padding:16px; font-weight:700; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
-                <i class="ph-bold ph-power"></i> Logout
+            <button id="btn-profile-logout" style="width:100%; background:#EF4444; color:white; border:none; border-radius:8px; padding:12px; font-weight:700; font-size:0.95rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(239,68,68,0.2);">
+                <i class="ph-bold ph-sign-out"></i> Logout
             </button>
             <div style="text-align:center; font-size:0.7rem; color:#9CA3AF; margin-top:16px; font-weight:600;">KARNAN - Empowering NEET UG Success - v1.0</div>
         </div>
