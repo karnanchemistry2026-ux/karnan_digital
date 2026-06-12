@@ -23,10 +23,12 @@ const screenInitMap = {
   'screen-dashboard': initDashboard,
   'screen-mistakes': initMistakes,
   'screen-leaderboard': initLeaderboard,
-  'screen-bookmarks': initBookmarks
+  'screen-bookmarks': initBookmarks,
+  'screen-admin': initAdmin // New admin screen
 };
 
 import { currentUser } from './auth.js';
+import { initAdmin } from './screens/admin.js';
 
 // ── Wrap navigateTo to auto-init screens ──
 const originalNavigateTo = navigateTo;
@@ -57,6 +59,14 @@ window.ExamForge = {
   router: {
     goBack,
     navigateTo: wrappedNavigateTo
+  },
+  showPremiumModal: (featureName) => {
+    const modal = document.getElementById('modal-premium-feature');
+    const textEl = document.getElementById('premium-feature-text');
+    if(modal && textEl) {
+      textEl.innerHTML = `<span class="font-weight-bold text-ink">${featureName}</span> — Upgrade to Premium is available on the Premium plan.`;
+      modal.style.display = 'flex';
+    }
   }
 };
 
@@ -163,8 +173,43 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (profilePremiumBtn) {
     profilePremiumBtn.addEventListener('click', () => {
-      const modal = document.getElementById('modal-pro');
-      if (modal) modal.classList.add('active');
+      window.ExamForge.showPremiumModal('Premium Access');
+    });
+  }
+
+  // Admin button
+  const btnAdminPanel = document.getElementById('btn-admin-panel');
+  if (btnAdminPanel) {
+    btnAdminPanel.addEventListener('click', () => wrappedNavigateTo('screen-admin'));
+  }
+
+  // Profile data injection
+  if (currentUser) {
+    const nameEl = document.getElementById('profile-name-display');
+    const emailEl = document.getElementById('profile-email-display');
+    if(nameEl) nameEl.textContent = currentUser.displayName || 'User';
+    if(emailEl) emailEl.textContent = currentUser.email || 'user@example.com';
+    
+    // Hardcoded Admin Check
+    if(currentUser.email === 'rakeshrevathi2006@gmail.com' && btnAdminPanel) {
+      btnAdminPanel.style.display = 'inline-block';
+    }
+  }
+
+  // ── Wire Premium modal ──
+  const modalPremium = document.getElementById('modal-premium-feature');
+  const btnPremiumMaybeLater = document.getElementById('btn-premium-maybe-later');
+  const btnPremiumUpgrade = document.getElementById('btn-premium-upgrade');
+
+  if (btnPremiumMaybeLater) {
+    btnPremiumMaybeLater.addEventListener('click', () => {
+      if (modalPremium) modalPremium.style.display = 'none';
+    });
+  }
+  if (btnPremiumUpgrade) {
+    btnPremiumUpgrade.addEventListener('click', () => {
+      if (modalPremium) modalPremium.style.display = 'none';
+      wrappedNavigateTo('screen-pricing');
     });
   }
 

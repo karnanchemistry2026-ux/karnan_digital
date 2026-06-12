@@ -1,4 +1,4 @@
-// js/screens/practice.js — ExamForge Practice Mode (5-step wizard + MCQ arena)
+// js/screens/practice.js — ExamForge Practice Mode (Redesigned)
 
 import { store } from '../utils/storage.js';
 import { navigateTo } from '../utils/router.js';
@@ -10,204 +10,89 @@ import { db } from '../firebase-config.js';
 import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // ── Module state ──
-let currentStep = 1;
-let selectedLanguage = 'English';
-let selectedClass = 11;
-let selectedSubject = '';
+let selectedSubject = 'Physics';
 let selectedChapter = null; // chapter object
 let currentQuestionIndex = 0;
 let questions = [];
 let userAnswers = []; // { selectedOption: number|null, answered: boolean }
 let midnightTimer = null;
 
-const DAILY_LIMIT = 20;
+const DAILY_LIMIT = 5;
 
 // ── Helpers ──
-function getStepperEl() { return document.getElementById('practice-stepper'); }
-function getStepContent() { return document.getElementById('practice-step-content'); }
-function getWizard() { return document.getElementById('practice-wizard'); }
+function getViewSubject() { return document.getElementById('practice-view-subject'); }
+function getViewChapter() { return document.getElementById('practice-view-chapter'); }
 function getArena() { return document.getElementById('mcq-arena'); }
 
-function updateStepper() {
-  const stepper = getStepperEl();
-  if (!stepper) return;
-  const dots = stepper.querySelectorAll('.step-dot');
-  dots.forEach((dot, i) => {
-    const stepNum = i + 1;
-    dot.classList.remove('active', 'done');
-    if (stepNum < currentStep) {
-      dot.classList.add('done');
-      dot.innerHTML = '<i class="ph-bold ph-check"></i>';
-    } else if (stepNum === currentStep) {
-      dot.classList.add('active');
-      dot.innerHTML = String(stepNum);
-    } else {
-      dot.innerHTML = String(stepNum);
-    }
-  });
-  const lines = stepper.querySelectorAll('.step-line');
-  lines.forEach((line, i) => {
-    if (i < currentStep - 1) line.classList.add('done');
-    else line.classList.remove('done');
-  });
-}
-
-function showWizard() {
-  const w = getWizard();
+function showViewSubject() {
+  const vS = getViewSubject();
+  const vC = getViewChapter();
   const a = getArena();
-  if (w) w.style.display = '';
+  if (vS) vS.style.display = 'block';
+  if (vC) vC.style.display = 'none';
   if (a) a.style.display = 'none';
 }
 
-function showArena() {
-  const w = getWizard();
+function showViewChapter() {
+  const vS = getViewSubject();
+  const vC = getViewChapter();
   const a = getArena();
-  if (w) w.style.display = 'none';
-  if (a) a.style.display = '';
+  if (vS) vS.style.display = 'none';
+  if (vC) vC.style.display = 'block';
+  if (a) a.style.display = 'none';
+  renderChapterList();
 }
 
-function renderStep() {
-  updateStepper();
-  const content = getStepContent();
-  if (!content) return;
-
-  switch (currentStep) {
-    case 1: renderLanguageStep(content); break;
-    case 2: renderClassStep(content); break;
-    case 3: renderSubjectStep(content); break;
-    case 4: renderChapterStep(content); break;
-    default: break;
-  }
+function showArena() {
+  const vS = getViewSubject();
+  const vC = getViewChapter();
+  const a = getArena();
+  if (vS) vS.style.display = 'none';
+  if (vC) vC.style.display = 'none';
+  if (a) a.style.display = 'block';
 }
 
-// ── Step 1: Language ──
-function renderLanguageStep(container) {
-  container.innerHTML = `
-    <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">Select Language</h3>
-    <div class="grid grid-2 gap-3" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-      <div class="wizard-card" data-lang="English">
-        <div class="wizard-card-left">
-          <i class="ph-fill ph-globe-hemisphere-west text-primary wizard-card-icon"></i>
-          <span>English</span>
-        </div>
-        <div class="wizard-card-right">1 class(es)</div>
-      </div>
-      <div class="wizard-card" data-lang="Tamil">
-        <div class="wizard-card-left">
-          <div style="font-size:0.75rem; font-weight:800; border:1px solid currentColor; border-radius:4px; padding:2px 4px; line-height:1; display:inline-flex;">TN</div>
-          <span>Tamil</span>
-        </div>
-        <div class="wizard-card-right">1 class(es)</div>
-      </div>
-    </div>
-    <button id="wizard-home-btn" class="wizard-btn-back"><i class="ph ph-arrow-left"></i> Home</button>
-  `;
-  container.querySelectorAll('.wizard-card').forEach(card => {
-    card.addEventListener('click', () => {
-      selectedLanguage = card.dataset.lang;
-      store.setLanguage(selectedLanguage);
-      currentStep = 2;
-      renderStep();
-    });
-  });
-  document.getElementById('wizard-home-btn').onclick = () => navigateTo('screen-home', 'back');
-}
+function renderChapterList() {
+  const container = document.getElementById('chapter-list-container');
+  if(!container) return;
+  
+  // Filter by subject
+  const filteredChapters = CHAPTERS.filter(c => c.subject === selectedSubject);
+  
+  const colors = [
+    { bg: '#E0F2FE', border: '#BAE6FD', text: '#0369A1' }, // Blue
+    { bg: '#DCFCE7', border: '#BBF7D0', text: '#15803D' }, // Green
+    { bg: '#F3E8FF', border: '#E9D5FF', text: '#7E22CE' }, // Purple
+    { bg: '#FEF9C3', border: '#FEF08A', text: '#A16207' }, // Yellow
+    { bg: '#FEE2E2', border: '#FECACA', text: '#B91C1C' }, // Red
+    { bg: '#CCFBF1', border: '#99F6E4', text: '#0F766E' }, // Teal
+  ];
 
-// ── Step 2: Class ──
-function renderClassStep(container) {
-  const class12Count = CHAPTERS.filter(c => c.class === 12).length;
+  let totalDoneToday = 0;
 
-  container.innerHTML = `
-    <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">Select Class</h3>
-    <div class="grid grid-2 gap-3" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-      <div class="wizard-card" data-class="11">
-        <div class="wizard-card-left">
-          <i class="ph-fill ph-book-bookmark text-primary wizard-card-icon"></i>
-          <span>Class 11</span>
-        </div>
-        <div class="wizard-card-right">3 subject(s)</div>
-      </div>
-      <div class="wizard-card" data-class="12">
-        <div class="wizard-card-left">
-          <i class="ph-fill ph-book-bookmark text-primary wizard-card-icon"></i>
-          <span>Class 12</span>
-        </div>
-        <div class="wizard-card-right">3 subject(s)</div>
-      </div>
-    </div>
-    <button id="wizard-back-btn" class="wizard-btn-back"><i class="ph ph-arrow-left"></i> Back</button>
-  `;
-  container.querySelectorAll('.wizard-card:not(.disabled)').forEach(card => {
-    card.addEventListener('click', () => {
-      selectedClass = parseInt(card.dataset.class, 10);
-      currentStep = 3;
-      renderStep();
-    });
-  });
-  document.getElementById('wizard-back-btn').onclick = () => { currentStep = 1; renderStep(); };
-}
-
-// ── Step 3: Subject ──
-function renderSubjectStep(container) {
-  container.innerHTML = `
-    <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">Select Subject</h3>
-    <div class="grid grid-3 gap-3" style="display:flex; gap:12px; flex-wrap:wrap;">
-      <div class="wizard-card" data-subject="Physics" style="flex:1; min-width:200px;">
-        <div class="wizard-card-left">
-          <i class="ph-fill ph-atom" style="color:#8b5cf6; font-size:1.25rem;"></i>
-          <span>Physics</span>
-        </div>
-        <div class="wizard-card-right">10 ch</div>
-      </div>
-      <div class="wizard-card" data-subject="Chemistry" style="flex:1; min-width:200px;">
-        <div class="wizard-card-left">
-          <i class="ph-fill ph-flask" style="color:#10b981; font-size:1.25rem;"></i>
-          <span>Chemistry</span>
-        </div>
-        <div class="wizard-card-right">10 ch</div>
-      </div>
-      <div class="wizard-card" data-subject="Biology" style="flex:1; min-width:200px;">
-        <div class="wizard-card-left">
-          <i class="ph-fill ph-dna" style="color:#f59e0b; font-size:1.25rem;"></i>
-          <span>Biology</span>
-        </div>
-        <div class="wizard-card-right">5 ch</div>
-      </div>
-    </div>
-    <button id="wizard-back-btn" class="wizard-btn-back"><i class="ph ph-arrow-left"></i> Back</button>
-  `;
-  container.querySelectorAll('.wizard-card:not(.disabled)').forEach(card => {
-    card.addEventListener('click', () => {
-      selectedSubject = card.dataset.subject;
-      currentStep = 4;
-      renderStep();
-    });
-  });
-  document.getElementById('wizard-back-btn').onclick = () => { currentStep = 2; renderStep(); };
-}
-
-// ── Step 4: Chapter ──
-function renderChapterStep(container) {
-  const filteredChapters = CHAPTERS.filter(c => c.subject === selectedSubject && c.class === selectedClass);
-
-  container.innerHTML = `
-    <h3 class="mb-4" style="font-weight:700; font-size:1.15rem; color:var(--ink);">Select Chapter</h3>
-    <div style="background-color: #F8F9FA; padding: 12px; border-radius: 16px; max-height:400px; overflow-y:auto;">
-      ${filteredChapters.length === 0 ? '<p class="text-muted text-center p-3">No chapters available.</p>' : filteredChapters.map(ch => `
-        <div class="wizard-card chapter-card" data-id="${ch.id}" style="margin-bottom:12px; border-radius:12px; display:flex; align-items:center; padding:16px 20px; background:white; cursor:pointer;">
-          <i class="ph-fill ph-book-open" style="color:#00897B; font-size:1.5rem; margin-right:16px;"></i>
-          <span style="flex:1; font-size:1.1rem; font-weight:600; color:var(--ink-dark);">${ch.name}</span>
-          <i class="ph-bold ph-caret-right" style="color:#BDBDBD; font-size:1.2rem;"></i>
-        </div>
-      `).join('')}
-    </div>
+  container.innerHTML = filteredChapters.map((ch, idx) => {
+    const doneToday = store.getDailyCount(selectedSubject, ch.id);
+    totalDoneToday += doneToday;
+    const leftToday = Math.max(0, DAILY_LIMIT - doneToday);
+    const color = colors[idx % colors.length];
     
-    <div style="text-align: center; margin-top: 16px; margin-bottom: 24px;">
-      <p style="font-size: 0.75rem; color: var(--ink-muted);"><i class="ph-fill ph-alarm"></i> Resets at midnight</p>
-    </div>
+    return `
+      <div class="chapter-card cursor-pointer" data-id="${ch.id}" style="background:white; border:1px solid #E5E7EB; border-radius:16px; padding:16px; display:flex; align-items:center; transition:all 0.2s ease;">
+        <div style="background:${color.bg}; border:1px solid ${color.border}; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:16px;">
+          <i class="ph-fill ph-book-open" style="color:${color.text}; font-size:1.5rem;"></i>
+        </div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:1.05rem; color:#1E1B4B; margin-bottom:4px;">${ch.name}</div>
+          <div style="font-size:0.8rem; font-weight:600; color:#6B7280;">${leftToday} left today</div>
+        </div>
+        <i class="ph-bold ph-caret-right" style="color:#D1D5DB; font-size:1.2rem;"></i>
+      </div>
+    `;
+  }).join('');
 
-    <button id="wizard-back-btn" class="wizard-btn-back"><i class="ph ph-arrow-left"></i> Back</button>
-  `;
+  // Update total done UI
+  const totalDoneEl = document.getElementById('practice-daily-done');
+  if(totalDoneEl) totalDoneEl.textContent = totalDoneToday;
 
   container.querySelectorAll('.chapter-card').forEach(card => {
     card.addEventListener('click', () => {
@@ -216,13 +101,27 @@ function renderChapterStep(container) {
       startMCQArena();
     });
   });
-  document.getElementById('wizard-back-btn').onclick = () => { currentStep = 3; renderStep(); };
+
+  // Start reset timer
+  const resetEl = document.getElementById('practice-reset-time');
+  if (midnightTimer) midnightTimer.stop();
+  midnightTimer = createMidnightTimer(
+    (formatted) => {
+      if (resetEl) {
+        // Just take the HH:MM
+        const parts = formatted.split(':');
+        resetEl.textContent = `${parts[0]}h ${parts[1]}m`;
+      }
+    },
+    () => { }
+  );
+  midnightTimer.start();
 }
 
 // ── Step 5: MCQ Arena ──
 async function startMCQArena() {
-  getArena().innerHTML = '<div style="text-align:center; padding:40px;"><i class="ph-bold ph-spinner ph-spin" style="font-size:2rem; color:var(--accent);"></i><p>Loading questions...</p></div>';
   showArena();
+  getArena().innerHTML = '<div style="text-align:center; padding:40px;"><i class="ph-bold ph-spinner ph-spin" style="font-size:2rem; color:var(--accent);"></i><p>Loading questions...</p></div>';
 
   let liveQuestions = [];
   try {
@@ -262,48 +161,30 @@ async function startMCQArena() {
   currentQuestionIndex = 0;
 
   getArena().innerHTML = `
-    <!-- Top Nav -->
-    <div class="flex justify-between align-center p-3 border-bottom bg-white" style="position:sticky; top:0; z-index:10;">
-      <button id="mcq-close-btn" class="btn btn-ghost btn-sm p-1"><i class="ph-bold ph-x" style="font-size:1.5rem;"></i></button>
-      <div class="flex align-center gap-2">
-        <span id="mcq-counter" class="font-weight-bold">1 / 10</span>
-      </div>
-      <button class="btn btn-ghost btn-sm p-1"><i class="ph-bold ph-bookmark-simple" style="font-size:1.5rem;"></i></button>
-    </div>
-
-    <!-- Main Content -->
-    <div class="p-3">
-      <!-- Progress -->
-      <div class="mb-3">
-        <span id="mcq-subject-chip" class="text-small font-weight-bold text-accent bg-subtle p-1 rounded d-inline-block mb-2">Subject</span>
-        <div class="progress-container w-100 bg-subtle rounded overflow-hidden" style="height: 6px;">
-          <div id="mcq-progress-bar" class="progress-bar bg-accent h-100" style="width: 10%; transition: width 0.3s;"></div>
+    <div class="mcq-topbar mb-2 flex justify-between align-start">
+        <div>
+            <div id="mcq-counter" style="font-size:1.2rem; font-weight:700; color:var(--ink); display:flex; align-items:center; gap:4px;"><i class="ph-bold ph-question"></i> 1/5</div>
+            <div id="mcq-subject-chip" style="color:var(--primary); font-size:0.85rem; font-weight:600; margin-top:2px;">Physics</div>
         </div>
-      </div>
-
-      <!-- Question Text -->
-      <div id="mcq-question-text" class="font-weight-bold mb-4" style="font-size: 1.15rem; line-height: 1.5; color: var(--ink);">
-        Question text here?
-      </div>
-
-      <!-- Options -->
-      <div id="mcq-options-list" class="flex flex-col gap-2 mb-4">
-        <!-- populated by JS -->
-      </div>
-
-      <!-- Explanation Box -->
-      <div id="mcq-explanation" class="card bg-subtle mb-4" style="display:none; border: 1px solid var(--border);">
-        <div class="font-weight-bold flex align-center gap-1 mb-2 text-accent">
-          <i class="ph-fill ph-lightbulb"></i> Explanation
-        </div>
-        <p id="mcq-explanation-text" class="text-small m-0 text-ink-secondary" style="line-height:1.5;"></p>
-      </div>
+        <button id="mcq-exit-btn" style="background:white; border:1px solid var(--border); border-radius:100px; padding:6px 12px; font-size:0.85rem; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:4px; color:var(--ink);"><i class="ph ph-x"></i> Exit</button>
     </div>
-
-    <!-- Bottom Actions -->
-    <div class="flex justify-between align-center p-3 border-top bg-white" style="position:fixed; bottom:0; left:0; right:0;">
-      <button id="mcq-prev-btn" class="btn btn-outline flex align-center gap-1 disabled" style="border-radius:24px; padding:8px 16px;"><i class="ph-bold ph-caret-left"></i> Prev</button>
-      <button id="mcq-next-btn" class="btn btn-primary flex align-center gap-1" style="border-radius:24px; padding:8px 16px;">Next <i class="ph-bold ph-caret-right"></i></button>
+    
+    <div class="progress-bar mb-4" style="height:4px; background:var(--bg); border-radius:4px; overflow:hidden;">
+        <div id="mcq-progress-bar" style="width: 0%; height:100%; background:var(--primary); transition:width 0.3s ease; border-radius:4px;"></div>
+    </div>
+    
+    <div class="question-card" style="background:white; border:1px solid var(--border); border-radius:12px; padding:24px;">
+        <div id="mcq-question-text" class="question-text mb-4" style="font-size:1.05rem; line-height:1.6; font-weight:500; color:var(--ink);">Question Text</div>
+        <div id="mcq-options-list" class="options-list flex flex-column gap-3 mb-4"></div>
+        <div id="mcq-explanation" class="explanation-box mt-4 p-3 bg-success-light border-left-success rounded-right" style="display:none; border-left:4px solid var(--success);"></div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:16px; margin-top:16px;">
+            <div style="display:flex; gap:12px; font-size:0.85rem; font-weight:500; color:var(--ink-secondary);">
+                <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-check-square" style="color:#10b981;"></i> <span id="mcq-correct-count">0</span></span>
+                <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-x-square" style="color:#ef4444;"></i> <span id="mcq-wrong-count">0</span></span>
+            </div>
+            <button id="mcq-next-btn" style="background:var(--primary); color:white; border:none; border-radius:100px; padding:8px 16px; font-size:0.9rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:4px;">Next <i class="ph-bold ph-arrow-right"></i></button>
+        </div>
     </div>
   `;
 
@@ -321,36 +202,40 @@ function renderQuestion() {
   const questionText = document.getElementById('mcq-question-text');
   const optionsList = document.getElementById('mcq-options-list');
   const explanationBox = document.getElementById('mcq-explanation');
-  const prevBtn = document.getElementById('mcq-prev-btn');
   const nextBtn = document.getElementById('mcq-next-btn');
 
-  if (counter) counter.textContent = `${currentQuestionIndex + 1} / ${questions.length}`;
-  if (subjectChip) subjectChip.textContent = q.subject;
+  if (counter) counter.innerHTML = `<i class="ph-bold ph-question"></i> ${currentQuestionIndex + 1}/${questions.length}`;
+  if (subjectChip) subjectChip.textContent = selectedSubject + " • " + selectedChapter.name;
   if (progressBar) progressBar.style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
 
   // Pro gating
   const isLocked = q.isPro && !store.isProUser();
 
   if (questionText) {
-    questionText.innerHTML = isLocked
-      ? `<div class="pro-locked-overlay">
-           <div class="blur-text">${q.text}</div>
-           <button class="pro-unlock-btn" id="mcq-pro-unlock">⚡ Unlock with Pro</button>
-         </div>`
-      : q.text;
+    if (isLocked) {
+      questionText.innerHTML = `<div style="filter:blur(4px); user-select:none;">${q.text}</div>`;
+    } else {
+      questionText.innerHTML = q.text;
+    }
   }
 
   // Render options
   if (optionsList) {
     if (isLocked) {
-      optionsList.innerHTML = '<p class="pro-msg">Upgrade to Pro to access this question.</p>';
+      optionsList.innerHTML = `
+        <div style="text-align:center; padding:24px;">
+            <i class="ph-fill ph-lock-key" style="font-size:2rem; color:#F59E0B; margin-bottom:8px;"></i>
+            <p style="font-weight:600; margin-bottom:12px;">This question is locked</p>
+            <button id="mcq-pro-unlock" class="btn btn-primary" style="background:#6C48E1; border:none;">Unlock with Premium</button>
+        </div>`;
       // Wire unlock button
       setTimeout(() => {
         const unlockBtn = document.getElementById('mcq-pro-unlock');
         if (unlockBtn) {
           unlockBtn.onclick = () => {
-            const modal = document.getElementById('modal-pro');
-            if (modal) modal.classList.add('active');
+            if(window.ExamForge && window.ExamForge.showPremiumModal) {
+              window.ExamForge.showPremiumModal('Advanced MCQ Practice');
+            }
           };
         }
       }, 0);
@@ -361,14 +246,14 @@ function renderQuestion() {
       optionsList.innerHTML = q.options.map((opt, i) => {
         let classes = 'opt';
         if (ua.answered) {
-          if (i === q.correct) classes += ' correct';
-          if (ua.selectedOption === i && i !== q.correct) classes += ' wrong';
+          if (i === q.correctAnswer) classes += ' correct';
+          if (ua.selectedOption === i && i !== q.correctAnswer) classes += ' wrong';
           if (ua.selectedOption === i) classes += ' selected';
         }
         return `
-          <div class="${classes}" data-index="${i}">
-            <span class="opt-key">${keys[i]}</span>
-            <span class="opt-text">${opt}</span>
+          <div class="${classes}" data-index="${i}" style="border:1px solid #E5E7EB; border-radius:12px; padding:12px 16px; cursor:${ua.answered?'default':'pointer'}; transition:all 0.2s; display:flex; gap:12px;">
+            <span class="opt-key" style="background:#F3F4F6; width:24px; height:24px; display:flex; align-items:center; justify-content:center; border-radius:6px; font-weight:700; font-size:0.8rem; color:#4B5563;">${keys[i]}</span>
+            <span class="opt-text" style="font-weight:500; color:#1E1B4B;">${opt}</span>
           </div>
         `;
       }).join('');
@@ -386,12 +271,13 @@ function renderQuestion() {
   if (explanationBox) {
     if (userAnswers[currentQuestionIndex].answered) {
       explanationBox.innerHTML = `
-        <div class="explanation-box show">
-          <strong>Explanation:</strong> ${q.explanation}
-          ${q.ncertRef ? `<br><small class="ncert-ref">📖 ${q.ncertRef}</small>` : ''}
-        </div>
+        <div class="font-weight-bold" style="color:#059669; margin-bottom:4px;">Explanation:</div>
+        <div style="font-size:0.9rem; color:#065F46;">${q.explanation}</div>
+        ${q.ncertRef ? `<div style="font-size:0.8rem; margin-top:8px; font-style:italic; color:#047857;">📖 ${q.ncertRef}</div>` : ''}
       `;
+      explanationBox.style.display = 'block';
     } else {
+      explanationBox.style.display = 'none';
       explanationBox.innerHTML = '';
     }
   }
@@ -400,20 +286,16 @@ function renderQuestion() {
   let correctC = 0, wrongC = 0;
   userAnswers.forEach(ua => {
     if (ua.answered) {
-      if (ua.selectedOption === questions[userAnswers.indexOf(ua)].correct) correctC++;
+      if (ua.selectedOption === questions[userAnswers.indexOf(ua)].correctAnswer) correctC++;
       else wrongC++;
     }
   });
-  const doneToday = store.getDailyCount(selectedSubject, selectedChapter.id);
-  const leftToday = Math.max(0, DAILY_LIMIT - doneToday);
   
   const correctEl = document.getElementById('mcq-correct-count');
   const wrongEl = document.getElementById('mcq-wrong-count');
-  const leftEl = document.getElementById('mcq-left-today');
   
   if (correctEl) correctEl.textContent = correctC;
   if (wrongEl) wrongEl.textContent = wrongC;
-  if (leftEl) leftEl.textContent = `${leftToday} left today`;
 
   // Next button state
   if (nextBtn) {
@@ -435,7 +317,7 @@ function handleOptionClick(index) {
   store.markStudiedToday();
 
   // If wrong, add to mistakes
-  if (index !== q.correct) {
+  if (index !== q.correctAnswer) {
     store.addMistake({ ...q, selectedOption: index });
   }
 
@@ -451,8 +333,7 @@ function wireArenaControls() {
     nextBtn.onclick = () => {
       const ua = userAnswers[currentQuestionIndex];
       if (!ua.answered) {
-        // Must answer first? Let's say yes
-        return;
+        return; // force answer
       }
       if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
@@ -466,105 +347,46 @@ function wireArenaControls() {
 
   if (exitBtn) {
     exitBtn.onclick = () => {
-      showConfirmModal('Exit Practice', 'Are you sure you want to exit? Your progress is saved.', () => {
-        resetPractice();
-        navigateTo('screen-home', 'back');
-      });
+       showViewChapter();
     };
   }
 }
 
 function showDailyComplete() {
   const overlay = document.getElementById('daily-complete-overlay');
-  if (overlay) overlay.style.display = 'flex';
-
-  // Midnight countdown
-  if (midnightTimer) midnightTimer.stop();
-  const countdownEl = document.getElementById('daily-countdown-timer');
-  midnightTimer = createMidnightTimer(
-    (formatted) => {
-      if (countdownEl) countdownEl.textContent = formatted;
-    },
-    () => {
-      if (countdownEl) countdownEl.textContent = '00:00:00';
-      // New day — auto refresh
-    }
-  );
-  midnightTimer.start();
+  const arena = getArena();
+  if (overlay) overlay.style.display = 'block';
+  if (arena) arena.style.display = 'none';
 
   // Wire buttons
-  const anotherBtn = document.getElementById('daily-another-chapter');
   const goHomeBtn = document.getElementById('daily-go-home');
-
-  if (anotherBtn) {
-    anotherBtn.onclick = () => {
-      if (overlay) overlay.style.display = 'none';
-      showWizard();
-      currentStep = 4;
-      renderStep();
-    };
-  }
   if (goHomeBtn) {
     goHomeBtn.onclick = () => {
-      resetPractice();
+      if (overlay) overlay.style.display = 'none';
+      showViewSubject();
       navigateTo('screen-home', 'back');
     };
   }
 }
 
-function showConfirmModal(title, message, onOk) {
-  const modal = document.getElementById('modal-confirm');
-  const titleEl = document.getElementById('confirm-title');
-  const msgEl = document.getElementById('confirm-message');
-  const cancelBtn = document.getElementById('confirm-cancel');
-  const okBtn = document.getElementById('confirm-ok');
-
-  if (titleEl) titleEl.textContent = title;
-  if (msgEl) msgEl.textContent = message;
-  if (modal) modal.classList.add('active');
-
-  if (okBtn) {
-    okBtn.onclick = () => {
-      if (modal) modal.classList.remove('active');
-      if (onOk) onOk();
-    };
+export function initPractice() {
+  // Wire Subject buttons
+  const btnPhysics = document.getElementById('btn-subject-physics');
+  if (btnPhysics) {
+      btnPhysics.onclick = () => {
+          selectedSubject = 'Physics';
+          showViewChapter();
+      };
   }
-  if (cancelBtn) {
-    cancelBtn.onclick = () => {
-      if (modal) modal.classList.remove('active');
-    };
-  }
-}
 
-function resetPractice() {
-  currentStep = 1;
-  selectedLanguage = store.getLanguage();
-  selectedClass = 11;
-  selectedSubject = '';
-  selectedChapter = null;
-  currentQuestionIndex = 0;
-  questions = [];
-  userAnswers = [];
-  if (midnightTimer) { midnightTimer.stop(); midnightTimer = null; }
+  const btnBackSubjects = document.getElementById('btn-back-to-subjects');
+  if (btnBackSubjects) {
+      btnBackSubjects.onclick = () => showViewSubject();
+  }
+
+  // Reset overlay
   const overlay = document.getElementById('daily-complete-overlay');
   if (overlay) overlay.style.display = 'none';
-  showWizard();
-}
 
-export function initPractice() {
-  resetPractice();
-  renderStep();
-
-  // Wire back button
-  const backBtn = document.getElementById('practice-back-btn');
-  if (backBtn) {
-    backBtn.onclick = () => {
-      if (currentStep > 1) {
-        currentStep--;
-        renderStep();
-      } else {
-        navigateTo('screen-home', 'back');
-      }
-    };
-  }
+  showViewSubject();
 }

@@ -176,58 +176,115 @@
     </section>
 
     <!-- SCREEN: PRACTICE -->
-    <section id="screen-practice" class="screen">
-        <div id="practice-wizard" style="max-width: 800px; margin: 0 auto; padding-top: 40px;">
-            <div id="practice-stepper" class="stepper mb-4 flex align-center justify-center">
-                <div class="step-dot active" id="step-dot-1">1</div><div class="step-line" id="step-line-1"></div>
-                <div class="step-dot" id="step-dot-2">2</div><div class="step-line" id="step-line-2"></div>
-                <div class="step-dot" id="step-dot-3">3</div><div class="step-line" id="step-line-3"></div>
-                <div class="step-dot" id="step-dot-4">4</div>
+    <section id="screen-practice" class="screen animate-fade-in" style="background-color: #F8F9FA; min-height: 100vh;">
+        <div style="max-width: 800px; margin: 0 auto; padding: 24px 20px;">
+            <!-- Stepper -->
+            <div class="stepper-new mb-4 flex align-center justify-center" style="gap: 8px;">
+                <div class="step-circle bg-success text-white flex align-center justify-center" style="width:28px;height:28px;border-radius:50%;"><i class="ph-bold ph-check"></i></div>
+                <div style="height:2px; width:60px; background:var(--success);"></div>
+                <div class="step-circle bg-success text-white flex align-center justify-center" style="width:28px;height:28px;border-radius:50%;"><i class="ph-bold ph-check"></i></div>
+                <div style="height:2px; width:60px; background:var(--success);"></div>
+                <div class="step-circle bg-primary text-white flex align-center justify-center font-weight-bold" style="width:28px;height:28px;border-radius:50%;">3</div>
+                <div style="height:2px; width:60px; background:#E5E7EB;"></div>
+                <div class="step-circle bg-white border flex align-center justify-center text-muted font-weight-bold" style="width:28px;height:28px;border-radius:50%; border:2px solid #E5E7EB;">4</div>
             </div>
-            <div id="practice-step-content" class="mt-4"></div>
-        </div>
 
-        <div id="mcq-arena" style="display:none; max-width: 800px; margin: 0 auto; padding-top: 40px;">
-            <div class="mcq-topbar mb-2 flex justify-between align-start">
-                <div>
-                    <div id="mcq-counter" style="font-size:1.2rem; font-weight:700; color:var(--ink); display:flex; align-items:center; gap:4px;"><i class="ph-bold ph-question"></i> 1/20</div>
-                    <div id="mcq-subject-chip" style="color:var(--primary); font-size:0.85rem; font-weight:600; margin-top:2px;">Physics</div>
-                </div>
-                <button id="mcq-exit-btn" style="background:white; border:1px solid var(--border); border-radius:100px; padding:6px 12px; font-size:0.85rem; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:4px; color:var(--ink);"><i class="ph ph-x"></i> Exit</button>
-            </div>
-            
-            <div class="progress-bar mb-4" style="height:4px; background:var(--bg); border-radius:4px; overflow:hidden;">
-                <div id="mcq-progress-bar" style="width: 0%; height:100%; background:var(--primary); transition:width 0.3s ease; border-radius:4px;"></div>
-            </div>
-            
-            <div class="question-card" style="background:white; border:1px solid var(--border); border-radius:12px; padding:24px;">
-                <div id="mcq-question-text" class="question-text mb-4" style="font-size:1.05rem; line-height:1.6; font-weight:500; color:var(--ink);">Question Text</div>
-                <div id="mcq-options-list" class="options-list flex flex-column gap-3 mb-4"></div>
-                <div id="mcq-explanation" class="explanation-box mt-4 p-3 bg-success-light border-left-success rounded-right" style="display:none; border-left:4px solid var(--success);"></div>
+            <!-- VIEW: CHOOSE SUBJECT -->
+            <div id="practice-view-subject">
+                <h2 style="font-size:1.4rem; font-weight:800; color:#1E1B4B; margin-bottom:24px;">Choose Subject</h2>
                 
-                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:16px; margin-top:16px;">
-                    <div style="display:flex; gap:12px; font-size:0.85rem; font-weight:500; color:var(--ink-secondary);">
-                        <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-check-square" style="color:#10b981;"></i> <span id="mcq-correct-count">0</span></span>
-                        <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-x-square" style="color:#ef4444;"></i> <span id="mcq-wrong-count">0</span></span>
-                        <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-calendar-blank" style="color:#6366f1;"></i> <span id="mcq-left-today">20 left today</span></span>
+                <div class="grid grid-2 gap-3" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom: 24px;">
+                    <!-- Physics (Available) -->
+                    <div id="btn-subject-physics" class="card p-3 cursor-pointer" style="background:white; border:1px solid #E5E7EB; border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; position:relative;">
+                        <div style="background:#E0E7FF; padding:12px; border-radius:12px; margin-bottom:16px;"><i class="ph-fill ph-atom" style="font-size:1.8rem; color:#6366F1;"></i></div>
+                        <h3 style="font-size:1.1rem; font-weight:700; margin:0 0 4px 0;">Physics</h3>
+                        <p style="color:#059669; font-size:0.8rem; font-weight:600; margin:0;">Free - <span id="phy-chapter-count">6</span> chapters</p>
                     </div>
-                    <button id="mcq-next-btn" style="background:var(--primary); color:white; border:none; border-radius:100px; padding:8px 16px; font-size:0.9rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:4px;">Next <i class="ph-bold ph-arrow-right"></i></button>
+
+                    <!-- Chemistry (Locked) -->
+                    <div class="card p-3" style="background:white; border:1px solid #E5E7EB; border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; position:relative; opacity:0.8;">
+                        <i class="ph-fill ph-lock-key text-warning" style="position:absolute; top:16px; right:16px; font-size:1.2rem;"></i>
+                        <div style="background:#ECFCCB; padding:12px; border-radius:12px; margin-bottom:16px;"><i class="ph-fill ph-flask" style="font-size:1.8rem; color:#65A30D;"></i></div>
+                        <h3 style="font-size:1.1rem; font-weight:700; margin:0 0 4px 0;">Chemistry</h3>
+                        <p style="color:#059669; font-size:0.8rem; font-weight:600; margin:0;">Coming Soon</p>
+                    </div>
+
+                    <!-- Biology (Locked) -->
+                    <div class="card p-3" style="background:white; border:1px solid #E5E7EB; border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; position:relative; opacity:0.8;">
+                        <i class="ph-fill ph-lock-key text-warning" style="position:absolute; top:16px; right:16px; font-size:1.2rem;"></i>
+                        <div style="background:#FCE7F3; padding:12px; border-radius:12px; margin-bottom:16px;"><i class="ph-fill ph-dna" style="font-size:1.8rem; color:#DB2777;"></i></div>
+                        <h3 style="font-size:1.1rem; font-weight:700; margin:0 0 4px 0;">Biology</h3>
+                        <p style="color:#059669; font-size:0.8rem; font-weight:600; margin:0;">Coming Soon</p>
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="window.ExamForge.router.goBack()" style="border-radius:100px; padding:8px 24px;"><i class="ph-bold ph-arrow-left"></i> Back</button>
+            </div>
+
+            <!-- VIEW: CHOOSE CHAPTER -->
+            <div id="practice-view-chapter" style="display:none;">
+                <h2 style="font-size:1.4rem; font-weight:800; color:#1E1B4B; margin-bottom:24px;">Physics — Select Chapter</h2>
+                
+                <div style="background:#D1FAE5; border:1px solid #A7F3D0; padding:16px; border-radius:12px; display:flex; align-items:center; gap:16px; margin-bottom:24px;">
+                    <div style="background:white; border-radius:8px; padding:8px;"><i class="ph-fill ph-calendar-blank" style="color:#3B82F6; font-size:1.5rem;"></i></div>
+                    <div>
+                        <div style="font-weight:700; font-size:0.95rem; color:#065F46;">Daily Practice — 5 Questions Per Subject</div>
+                        <div style="font-size:0.8rem; color:#047857;"><span id="practice-daily-done">0</span> of 5 questions done today</div>
+                    </div>
+                </div>
+
+                <div id="chapter-list-container" class="grid grid-2 gap-3" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:24px;">
+                    <!-- JS Injects chapters here -->
+                </div>
+
+                <div style="text-align:center; color:#EF4444; font-size:0.75rem; font-weight:600; margin-bottom:24px; display:flex; align-items:center; justify-content:center; gap:4px;">
+                    <i class="ph-fill ph-alarm"></i> Resets at midnight - Next reset in <span id="practice-reset-time">--h --m</span>
+                </div>
+
+                <button class="btn btn-outline" id="btn-back-to-subjects" style="border-radius:100px; padding:8px 24px;"><i class="ph-bold ph-arrow-left"></i> Back</button>
+            </div>
+
+            <!-- VIEW: MCQ ARENA -->
+            <div id="mcq-arena" style="display:none;">
+                <div class="mcq-topbar mb-2 flex justify-between align-start">
+                    <div>
+                        <div id="mcq-counter" style="font-size:1.2rem; font-weight:700; color:var(--ink); display:flex; align-items:center; gap:4px;"><i class="ph-bold ph-question"></i> 1/5</div>
+                        <div id="mcq-subject-chip" style="color:var(--primary); font-size:0.85rem; font-weight:600; margin-top:2px;">Physics</div>
+                    </div>
+                    <button id="mcq-exit-btn" style="background:white; border:1px solid var(--border); border-radius:100px; padding:6px 12px; font-size:0.85rem; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:4px; color:var(--ink);"><i class="ph ph-x"></i> Exit</button>
+                </div>
+                
+                <div class="progress-bar mb-4" style="height:4px; background:var(--bg); border-radius:4px; overflow:hidden;">
+                    <div id="mcq-progress-bar" style="width: 0%; height:100%; background:var(--primary); transition:width 0.3s ease; border-radius:4px;"></div>
+                </div>
+                
+                <div class="question-card" style="background:white; border:1px solid var(--border); border-radius:12px; padding:24px;">
+                    <div id="mcq-question-text" class="question-text mb-4" style="font-size:1.05rem; line-height:1.6; font-weight:500; color:var(--ink);">Question Text</div>
+                    <div id="mcq-options-list" class="options-list flex flex-column gap-3 mb-4"></div>
+                    <div id="mcq-explanation" class="explanation-box mt-4 p-3 bg-success-light border-left-success rounded-right" style="display:none; border-left:4px solid var(--success);"></div>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:16px; margin-top:16px;">
+                        <div style="display:flex; gap:12px; font-size:0.85rem; font-weight:500; color:var(--ink-secondary);">
+                            <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-check-square" style="color:#10b981;"></i> <span id="mcq-correct-count">0</span></span>
+                            <span style="display:flex; align-items:center; gap:4px;"><i class="ph-fill ph-x-square" style="color:#ef4444;"></i> <span id="mcq-wrong-count">0</span></span>
+                        </div>
+                        <button id="mcq-next-btn" style="background:var(--primary); color:white; border:none; border-radius:100px; padding:8px 16px; font-size:0.9rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:4px;">Next <i class="ph-bold ph-arrow-right"></i></button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="daily-complete-overlay" style="display:none;" class="complete-card text-center p-4 card bg-accent-light border-accent mt-4">
-            <div class="complete-icon mb-4 text-accent" style="font-size:3rem;"><i class="ph-fill ph-party-popper"></i></div>
-            <h2 class="mb-2">Daily Practice Complete!</h2>
-            <p class="mb-4 text-ink-secondary">You've reached your 20 question limit for this chapter today. Great job!</p>
-            <div class="mb-4 text-center">
-                <p class="text-small text-muted mb-1">Resets in</p>
-                <div id="daily-countdown-timer" class="countdown text-primary font-weight-bold" style="font-size:2rem; font-family:monospace;">00:00:00</div>
+            <div id="daily-complete-overlay" style="display:none;" class="complete-card text-center p-4 card bg-accent-light border-accent mt-4">
+                <div class="complete-icon mb-4 text-accent" style="font-size:3rem;"><i class="ph-fill ph-party-popper"></i></div>
+                <h2 class="mb-2">Daily Practice Complete!</h2>
+                <p class="mb-4 text-ink-secondary">You've reached your 5 question limit for this subject today. Great job!</p>
+                <div class="mb-4 text-center">
+                    <p class="text-small text-muted mb-1">Resets in</p>
+                    <div id="daily-countdown-timer" class="countdown text-primary font-weight-bold" style="font-size:2rem; font-family:monospace;">00:00:00</div>
+                </div>
+                <div class="flex gap-2 flex-column mt-4">
+                    <button id="daily-go-home" class="btn btn-primary btn-block">Go to Home</button>
+                </div>
             </div>
-            <div class="flex gap-2 flex-column mt-4">
-                <button id="daily-another-chapter" class="btn btn-primary btn-block mb-2">Practice Another Chapter</button>
-                <button id="daily-go-home" class="btn btn-outline btn-block">Go to Home</button>
-            </div>
+
         </div>
     </section>
 
@@ -506,86 +563,122 @@
         </div>
     </section>
 
-    <!-- MODAL: PRO UPGRADE -->
+    <!-- MODAL: PRO UPGRADE (Full Screen via Routing) -->
     <div id="modal-pro" class="modal-overlay">
-        <div class="modal-content animate-scale-in w-100 m-3 card" style="max-width: 400px; width:100%; margin:16px; position:relative; background:white; padding: 0; overflow: hidden;">
-            <button id="modal-pro-close" class="btn btn-ghost btn-sm p-1" style="position: absolute; top: 12px; right: 12px; font-size:1.5rem; background:rgba(255,255,255,0.2); color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border:none; cursor:pointer; z-index: 2;"><i class="ph ph-x"></i></button>
-            
-            <div style="background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%); padding: 40px 20px 32px 20px; text-align: center; color: white;">
-                <i class="ph-fill ph-trophy" style="font-size: 3rem; margin-bottom: 16px;"></i>
-                <h2 style="margin: 0 0 8px 0; font-size: 1.6rem; font-weight: 800; color: white; letter-spacing: -0.5px;">Choose Your Success Plan</h2>
-                <p style="margin: 0; font-size: 0.95rem; color: rgba(255,255,255,0.9);">All plans valid for 6 months</p>
-            </div>
-            
-            <div style="padding: 24px;">
-            
-            <div class="bg-subtle rounded p-3 mb-4" style="background:var(--bg-subtle); padding:16px; border-radius:var(--radius-sm);">
-                <div class="flex justify-between mb-2 border-bottom pb-2" style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:8px;"><span>Free</span><span class="text-muted">Limited Qs</span></div>
-                <div class="flex justify-between font-weight-bold text-accent" style="display:flex; justify-content:space-between; font-weight:bold; color:var(--accent);"><span>Pro</span><span>All 15,000+ Qs</span></div>
-            </div>
+        <!-- Replaced by new premium modal, handled below -->
+    </div>
 
-            <div class="text-center mb-4 mt-4" style="text-align:center;">
-                <span class="font-weight-bold text-accent" style="font-size:3rem; font-weight:bold; color:var(--accent);">₹299</span><span class="text-muted">/year</span>
+    <!-- NEW PREMIUM FEATURE MODAL -->
+    <div id="modal-premium-feature" class="modal-overlay" style="display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px); z-index:9999;">
+        <div class="modal-content animate-scale-in" style="background:white; border-radius:24px; max-width:380px; width:100%; margin:20px; padding:32px 24px; text-align:center; box-shadow:0 24px 48px rgba(0,0,0,0.1);">
+            <div style="margin-bottom:16px;">
+                <i class="ph-fill ph-star" style="color:#FBBF24; font-size:3rem; filter:drop-shadow(0 4px 12px rgba(251,191,36,0.3));"></i>
             </div>
-
-            <form id="pro-form" class="mt-4">
-                <input type="text" class="input w-100 mb-2 p-2 rounded border" placeholder="Full Name" required style="width:100%; padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border); margin-bottom:8px;">
-                <input type="email" class="input w-100 mb-2 p-2 rounded border" placeholder="Email Address" required style="width:100%; padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border); margin-bottom:8px;">
-                <input type="tel" class="input w-100 mb-3 p-2 rounded border" placeholder="Phone Number" required style="width:100%; padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border); margin-bottom:16px;">
-                <button type="submit" class="btn btn-primary w-100 border-none font-weight-bold" style="width:100%; background:var(--accent); color:white; border:none; padding:14px; border-radius:var(--radius-sm); font-weight:bold; cursor:pointer;">Pay with Razorpay</button>
-            </form>
-            <p class="text-small text-muted text-center mt-3" style="font-size:0.8rem; text-align:center; margin-top:12px; color:var(--ink-muted);">This is a mock payment flow for the demo.</p>
+            <h2 style="font-size:1.5rem; font-weight:800; color:#1E1B4B; margin:0 0 12px 0;">Premium Feature</h2>
+            <p id="premium-feature-text" style="color:#6B7280; font-size:0.95rem; line-height:1.5; margin:0 0 24px 0;">
+                <span class="font-weight-bold text-ink">MCQ Practice</span> — Upgrade to Premium is available on the Premium plan.
+            </p>
+            <div style="display:flex; gap:12px;">
+                <button id="btn-premium-maybe-later" style="flex:1; background:white; color:#6B7280; border:1px solid #E5E7EB; padding:12px; border-radius:12px; font-weight:600; cursor:pointer;">Maybe Later</button>
+                <button id="btn-premium-upgrade" style="flex:1; background:#6C48E1; color:white; border:none; padding:12px; border-radius:12px; font-weight:600; cursor:pointer; box-shadow:0 4px 12px rgba(108,72,225,0.2);">Upgrade<br><span style="font-size:0.75rem;">₹199/mo</span></button>
             </div>
         </div>
     </div>
 
     <!-- SCREEN: PROFILE -->
-    <section id="screen-profile" class="screen" style="background-color: #F8F9FA; min-height: 100vh; display: none;">
-        <div style="background-color: #0066CC; padding: 16px 20px; position: sticky; top: 0; z-index: 10; border-radius: var(--radius-sm);">
-            <h2 style="color: white; font-size: 1.5rem; font-weight: 800; margin: 0;">Profile</h2>
+    <section id="screen-profile" class="screen" style="background-color: #F8F9FA; min-height: 100vh;">
+        <div style="background-color: #00695C; padding: 24px 20px 48px 20px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; color:white;">
+                <div style="width:80px; height:80px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:12px; border:2px solid rgba(255,255,255,0.4);">
+                    <i class="ph-fill ph-user" style="font-size:3rem; color:white;"></i>
+                </div>
+                <h2 id="profile-name-display" style="font-size:1.5rem; font-weight:800; margin:0 0 4px 0;">Rakesh</h2>
+                <p id="profile-email-display" style="font-size:0.85rem; opacity:0.8; margin:0 0 12px 0;">rakeshrevathi2006@gmail.com</p>
+                <div style="background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); padding:4px 16px; border-radius:100px; font-size:0.75rem; font-weight:700; display:inline-block;">Free Plan</div>
+                
+                <button id="btn-admin-panel" style="display:none; background:#F59E0B; color:white; border:none; padding:6px 16px; border-radius:100px; font-size:0.75rem; font-weight:700; margin-top:12px; cursor:pointer;"><i class="ph-bold ph-wrench"></i> Admin Panel</button>
+            </div>
         </div>
         
-        <div class="profile-desktop-layout">
-            <div style="padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-                <div style="width: 120px; height: 120px; background-color: #0066CC; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-                    <i class="ph-fill ph-user" style="color: white; font-size: 4rem;"></i>
+        <div style="max-width:600px; margin:-24px auto 0 auto; padding:0 20px 80px 20px; position:relative; z-index:10;">
+            <div style="background:white; border-radius:16px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:8px 0; margin-bottom:24px;">
+                
+                <div id="btn-profile-performance" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer; border-bottom:1px solid #F3F4F6;">
+                    <i class="ph-fill ph-chart-bar" style="font-size:1.4rem; width:32px; color:#3B82F6;"></i>
+                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">My Performance</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
                 </div>
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #212121; margin-bottom: 4px;">Doctor</h2>
-                <p style="color: #9E9E9E; font-size: 1rem; margin-bottom: 16px;">rameshrott1986@gmail.com</p>
-                <span style="background-color: #FFE082; color: #F57F17; font-weight: 700; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem;">Free Plan</span>
+
+                <div id="btn-profile-bookmarks" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer; border-bottom:1px solid #F3F4F6;">
+                    <i class="ph-fill ph-push-pin" style="font-size:1.4rem; width:32px; color:#EF4444;"></i>
+                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">Bookmarks & Mistakes</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                </div>
+
+                <div id="btn-profile-leaderboard" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer; border-bottom:1px solid #F3F4F6;">
+                    <i class="ph-fill ph-trophy" style="font-size:1.4rem; width:32px; color:#D97706;"></i>
+                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">Leaderboard</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                </div>
+
+                <div id="btn-profile-premium" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer; border-bottom:1px solid #F3F4F6;">
+                    <i class="ph-fill ph-star" style="font-size:1.4rem; width:32px; color:#F59E0B;"></i>
+                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">Upgrade to Premium</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                </div>
+
+                <div id="btn-profile-contact" style="display:flex; align-items:center; padding:16px 20px; cursor:pointer;">
+                    <i class="ph-fill ph-phone-call" style="font-size:1.4rem; width:32px; color:#8B5CF6;"></i>
+                    <span style="flex:1; font-weight:600; font-size:1rem; color:#374151;">Contact Us</span>
+                    <i class="ph-bold ph-caret-right" style="color:#9CA3AF;"></i>
+                </div>
+
             </div>
 
-            <div style="padding: 0;">
-                <div style="background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); overflow: hidden;">
-                    <!-- Menu Item 1 -->
-                    <div id="btn-profile-performance" style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
-                        <i class="ph-fill ph-chart-bar" style="color: #0066CC; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                        <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">My Performance</span>
-                        <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
-                    </div>
-                    <!-- Menu Item 2 -->
-                    <div id="btn-profile-bookmarks" style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
-                        <i class="ph-fill ph-bookmark-simple" style="color: #00C853; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                        <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Bookmarks</span>
-                        <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
-                    </div>
-                    <!-- Menu Item 3 -->
-                    <div id="btn-profile-premium" style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
-                        <i class="ph-fill ph-medal" style="color: #FFCA28; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                        <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Upgrade to Premium</span>
-                        <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
-                    </div>
-                    <!-- Menu Item 4 -->
-                    <div id="btn-profile-settings" style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #EEEEEE; cursor: pointer;">
-                        <i class="ph-fill ph-gear" style="color: #9E9E9E; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                        <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Settings</span>
-                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+            <button id="btn-profile-logout" style="width:100%; background:white; color:#EF4444; border:1px solid #FECACA; border-radius:12px; padding:16px; font-weight:700; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <i class="ph-bold ph-power"></i> Logout
+            </button>
+            <div style="text-align:center; font-size:0.7rem; color:#9CA3AF; margin-top:16px; font-weight:600;">KARNAN - Empowering NEET UG Success - v1.0</div>
+        </div>
+    </section>
+
+    <!-- SCREEN: ADMIN PANEL -->
+    <section id="screen-admin" class="screen" style="background-color: #F8F9FA; min-height: 100vh;">
+        <div style="background-color: #1E1B4B; padding: 16px 20px; position: sticky; top: 0; z-index: 10; display: flex; align-items: center; color:white;">
+            <button onclick="window.ExamForge.router.goBack()" style="background: none; border: none; color: white; cursor: pointer; padding: 0; margin-right: 16px;">
+                <i class="ph-bold ph-arrow-left" style="font-size: 1.4rem;"></i>
+            </button>
+            <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0;">Admin Dashboard</h2>
+        </div>
+        <div style="padding:20px; max-width:800px; margin:0 auto;">
+            <div class="grid grid-2 gap-3 mb-4" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB;">
+                    <h3 style="font-size:0.9rem; color:#6B7280; margin:0 0 8px 0;">Total Chapters</h3>
+                    <div id="admin-chapter-count" style="font-size:2rem; font-weight:800; color:#1E1B4B;">0</div>
                 </div>
-                <!-- Menu Item 5 -->
-                <div id="btn-profile-logout" style="display: flex; align-items: center; padding: 20px; cursor: pointer;">
-                    <i class="ph-bold ph-sign-out" style="color: #F44336; font-size: 1.5rem; width: 32px; margin-right: 12px;"></i>
-                    <span style="flex: 1; font-size: 1.1rem; font-weight: 500; color: #212121;">Logout</span>
-                    <i class="ph-bold ph-caret-right" style="color: #BDBDBD; font-size: 1.2rem;"></i>
+                <div class="card p-3 text-center" style="background:white; border-radius:12px; border:1px solid #E5E7EB;">
+                    <h3 style="font-size:0.9rem; color:#6B7280; margin:0 0 8px 0;">Total Questions</h3>
+                    <div id="admin-question-count" style="font-size:2rem; font-weight:800; color:#1E1B4B;">0</div>
+                </div>
+            </div>
+
+            <div style="background:white; border-radius:16px; border:1px solid #E5E7EB; padding:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <h3 style="font-size:1.1rem; font-weight:800; color:#1E1B4B; margin:0;">Chapters</h3>
+                    <button id="admin-add-chapter-btn" class="btn btn-primary btn-sm" style="background:#6C48E1; color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-weight:600;"><i class="ph-bold ph-plus"></i> Add</button>
+                </div>
+                <div id="admin-chapter-list" style="display:flex; flex-direction:column; gap:8px;">
+                    <!-- Chapters populated by JS -->
+                </div>
+            </div>
+            
+            <div style="background:white; border-radius:16px; border:1px solid #E5E7EB; padding:20px; margin-top:24px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <h3 style="font-size:1.1rem; font-weight:800; color:#1E1B4B; margin:0;">Questions</h3>
+                    <button id="admin-add-question-btn" class="btn btn-primary btn-sm" style="background:#6C48E1; color:white; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; font-weight:600;"><i class="ph-bold ph-plus"></i> Add</button>
+                </div>
+                <div id="admin-question-list" style="display:flex; flex-direction:column; gap:8px;">
+                    <!-- Questions populated by JS -->
                 </div>
             </div>
         </div>
