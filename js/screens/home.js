@@ -71,26 +71,21 @@ export function initHome() {
   }
 
   // ── Daily Goal Widget ──
-  const goalTarget = 20;
+  const goalTarget = 5;
   const goalPct = Math.min(Math.round((dailyProgress / goalTarget) * 100), 100);
   
   const dgText = document.getElementById('daily-goal-text');
   const dgFill = document.getElementById('daily-goal-progress-fill');
   const dgStatus = document.getElementById('daily-goal-status');
   const dgPercent = document.getElementById('daily-goal-percent');
-  const dgCircle = document.getElementById('daily-goal-circle');
 
   if (dgText) dgText.textContent = `${dailyProgress}/${goalTarget} Questions Today`;
-  if (dgStatus) dgStatus.textContent = `${goalPct}% completed`;
+  if (dgStatus) dgStatus.textContent = `${goalPct}% of daily limit`;
   if (dgPercent) dgPercent.textContent = `${goalPct}%`;
   
   // Animate the bars after a short delay
   setTimeout(() => {
     if (dgFill) dgFill.style.width = `${goalPct}%`;
-    if (dgCircle) {
-      const circ = 213.6; // Circumference
-      dgCircle.style.strokeDashoffset = circ - (circ * goalPct / 100);
-    }
   }, 100);
 
   // ── Feature card navigation ──

@@ -50,120 +50,76 @@
                 <button type="submit" id="btn-auth-submit" class="btn btn-primary" style="width: 100%; padding: 14px; border-radius: 12px; font-size: 1.05rem; margin-bottom: 16px;">Sign In</button>
             </form>
 
-            <div style="display: flex; align-items: center; margin: 20px 0;">
-                <div style="flex: 1; height: 1px; background: #EEEEEE;"></div>
-                <span style="padding: 0 16px; color: var(--ink-muted); font-size: 0.9rem; font-weight: 600;">OR</span>
-                <div style="flex: 1; height: 1px; background: #EEEEEE;"></div>
-            </div>
-
-            <button id="btn-google-signin" class="btn btn-outline" style="width: 100%; padding: 14px; border-radius: 12px; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 24px;">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 20px;">
-                Sign in with Google
-            </button>
-
-            <p style="margin: 0; font-size: 0.9rem; color: var(--ink-muted);">
-                <span id="auth-toggle-text">Don't have an account?</span> 
-                <a href="#" id="btn-auth-toggle" style="color: var(--primary); font-weight: 700; text-decoration: none;">Sign Up</a>
+            <p style="margin: 24px 0 12px 0; font-size: 0.95rem; color: #6B7280;">
+                <span id="auth-toggle-text">No account?</span> 
+                <a href="#" id="btn-auth-toggle" style="color: #6C48E1; font-weight: 700; text-decoration: none;">Create one free</a>
+            </p>
+            
+            <p style="margin: 0; font-size: 0.95rem; color: #6B7280;">
+                Trouble signing in? 
+                <a href="mailto:support@karnan.com" style="color: #6C48E1; font-weight: 700; text-decoration: none;">Contact Us</a>
             </p>
         </div>
     </section>
 
+    <!-- SCREEN: PRICING (Pro Plans) -->
+    <section id="screen-pricing" class="screen animate-fade-in" style="background-color: #F4F0FE; min-height: 100vh; padding: 0 0 40px 0;">
+        <div style="background-color: #D97706; padding: 40px 20px; text-align: center; color: white; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; margin-bottom: -24px; position: relative; z-index: 0;">
+            <i class="ph-fill ph-trophy" style="font-size: 2rem; color: #FCD34D; margin-bottom: 12px;"></i>
+            <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0 0 8px 0;">Choose Your Success Plan</h2>
+            <p style="font-size: 0.9rem; font-weight: 600; opacity: 0.9; margin: 0;">All plans valid for lifetime - Upgrade anytime</p>
+        </div>
+
+        <div style="max-width: 480px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1;">
+            <div style="background: white; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px;">
+                <div style="padding: 24px; border-bottom: 1px solid #E5E7EB; border: 2px solid #6C48E1; border-radius: 20px; margin-bottom: 16px;">
+                    <div style="font-size: 1.1rem; font-weight: 800; color: #1E1B4B; margin-bottom: 4px;">Free</div>
+                    <div style="margin-bottom: 16px;"><span style="font-size: 1.5rem; font-weight: 800; color: #6C48E1;">₹0</span> <span style="font-size: 0.8rem; color: #6B7280;">/ forever</span></div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; color: #4B5563;">
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> 5 questions / subject / day</div>
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> 1 mock tests / 30 min</div>
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Mistake tracker</div>
+                        <div style="display: flex; gap: 8px; opacity: 0.5;"><i class="ph-bold ph-x" style="color: #EF4444;"></i> Weekly grand test</div>
+                        <div style="display: flex; gap: 8px; opacity: 0.5;"><i class="ph-bold ph-x" style="color: #EF4444;"></i> Unlimited practice</div>
+                        <div style="display: flex; gap: 8px; opacity: 0.5;"><i class="ph-bold ph-x" style="color: #EF4444;"></i> Flashcards</div>
+                        <div style="display: flex; gap: 8px; opacity: 0.5;"><i class="ph-bold ph-x" style="color: #EF4444;"></i> Study community</div>
+                    </div>
+                </div>
+
+                <div style="padding: 24px; border-bottom: 1px solid #E5E7EB; background-color: #F3F4F6; position: relative;">
+                    <div style="position: absolute; top: 0; right: 24px; background: #FCD34D; color: #92400E; font-size: 0.6rem; font-weight: 800; padding: 4px 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">POPULAR</div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: #1E1B4B; margin-bottom: 4px;">Premium</div>
+                    <div style="margin-bottom: 16px;"><span style="font-size: 1.5rem; font-weight: 800; color: #6C48E1;">₹199</span> <span style="font-size: 0.8rem; color: #6B7280;">/ month</span></div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; color: #4B5563;">
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Unlimited daily practice</div>
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Full timed tests (3h 20 min)</div>
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Weekly grand test</div>
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Flashcards</div>
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Study community</div>
+                    </div>
+                </div>
+
+                <div style="padding: 24px; border: 2px solid #6C48E1; border-radius: 20px; position: relative; margin-top: 16px;">
+                    <div style="position: absolute; top: -12px; right: 24px; background: #6C48E1; color: white; font-size: 0.6rem; font-weight: 800; padding: 4px 8px; border-radius: 8px;">UNLIMITED</div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: #1E1B4B; margin-bottom: 4px;">Unlimited Pro</div>
+                    <div style="margin-bottom: 16px;"><span style="font-size: 1.5rem; font-weight: 800; color: #6C48E1;">₹499</span> <span style="font-size: 0.8rem; color: #6B7280;">/ month</span></div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; color: #4B5563;">
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Everything in Premium</div>
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Per-chapter notes / lectures</div>
+                        <div style="display: flex; gap: 8px;"><i class="ph-bold ph-check" style="color: #10B981;"></i> Priority support</div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="btn-pricing-continue" style="width: 100%; background: #6C48E1; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(108, 72, 225, 0.3);">Continue with Free</button>
+            <div style="text-align: center; margin-top: 12px; font-size: 0.7rem; color: #6B7280;">Payment integration coming soon.</div>
+        </div>
+    </section>
+
     <!-- SCREEN: HOME -->
-    <section id="screen-home" class="screen active animate-fade-in">
-        <div class="home-hero">
-            <h1>Crack NEET UG with <span class="text-primary">Confidence</span></h1>
-            <p>The NEET preparation platform built the way your brain actually learns.</p>
-        </div>
-        
-        <div class="home-stats-new">
-            <div class="stat-box">
-                <div class="stat-icon-wrapper" style="background-color: #E8F5F3; color: #00897B;">
-                    <i class="ph-fill ph-copy" style="font-size: 1.5rem;"></i>
-                </div>
-                <div id="home-total-solved" class="stat-value-new" style="color: #00897B;">0</div>
-                <div class="stat-label-new">Attempted</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-icon-wrapper" style="background-color: #FCE4EC; color: #E91E63;">
-                    <i class="ph-bold ph-target" style="font-size: 1.5rem;"></i>
-                </div>
-                <div id="home-accuracy" class="stat-value-new" style="color: #E91E63;">0%</div>
-                <div class="stat-label-new">Accuracy</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-icon-wrapper" style="background-color: #FFF3E0; color: #FF6D00;">
-                    <i class="ph-fill ph-fire" style="font-size: 1.5rem;"></i>
-                </div>
-                <div class="stat-value-new" style="color: #FF6D00;"><span id="home-streak-count">0</span> 🔥</div>
-                <div class="stat-label-new">Streak</div>
-            </div>
-        </div>
-
-        <div class="daily-goal-widget">
-            <div class="daily-goal-left">
-                <div class="daily-goal-title">Daily Goal</div>
-                <div class="daily-goal-text" id="daily-goal-text">0/20 Questions Today</div>
-                <div class="daily-goal-progress-track">
-                    <div class="daily-goal-progress-fill" id="daily-goal-progress-fill"></div>
-                </div>
-                <div class="daily-goal-status" id="daily-goal-status">0% completed</div>
-            </div>
-            <div class="daily-goal-right">
-                <svg width="80" height="80">
-                    <circle class="circle-bg" cx="40" cy="40" r="34"></circle>
-                    <circle class="circle-progress" id="daily-goal-circle" cx="40" cy="40" r="34"></circle>
-                </svg>
-                <div class="daily-goal-percent" id="daily-goal-percent">0%</div>
-            </div>
-        </div>
-
-        <div class="quick-practice-section" style="margin-bottom: 24px;">
-            <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; color: var(--ink-dark);">Quick Practice</h2>
-            <button id="btn-quick-practice" style="width: 100%; background-color: #00897B; color: white; border: none; border-radius: 12px; padding: 16px; font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 137, 123, 0.2);">
-                <i class="ph-fill ph-play"></i> Choose Subject & Practice
-            </button>
-        </div>
-
-        <div class="home-cards">
-            <div id="home-card-practice" class="home-card">
-                <div class="home-card-icon icon-primary"><i class="ph-fill ph-books" style="font-size: 1.5rem;"></i></div>
-                <h3>Practice Mode</h3>
-                <p>Chapter-wise MCQs · 20 Q/day · Instant feedback</p>
-                <div class="card-badges">
-                    <span class="chip chip-blue">Class 11 & 12</span>
-                    <span class="chip chip-green">NCERT Mapped</span>
-                </div>
-            </div>
-            <div id="home-card-test" class="home-card">
-                <div class="home-card-icon icon-accent"><i class="ph-fill ph-star" style="font-size: 1.5rem;"></i></div>
-                <h3>Weekly Grand Test</h3>
-                <p>180 Questions · 3 hrs 20 min · NEET Pattern</p>
-                <div class="card-badges">
-                    <span class="chip chip-amber">+4/−1 Marking</span>
-                    <span class="chip chip-purple">All Subjects</span>
-                </div>
-            </div>
-            <div id="home-card-flashcards" class="home-card">
-                <div class="home-card-icon icon-purple"><i class="ph-fill ph-cards" style="font-size: 1.5rem;"></i></div>
-                <h3>Flash Cards</h3>
-                <p>SI Units · Formulas · Laws · Key Facts</p>
-                <div class="card-badges">
-                    <span class="chip chip-purple">Quick Revision</span>
-                </div>
-            </div>
-            <div id="home-card-dashboard" class="home-card">
-                <div class="home-card-icon icon-success"><i class="ph-fill ph-chart-pie-slice" style="font-size: 1.5rem;"></i></div>
-                <h3>My Dashboard</h3>
-                <p>Track your progress · Find weak areas</p>
-                <div class="card-badges">
-                    <span class="chip chip-green">Analytics</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Previous Year Questions Section -->
-        <div class="pyq-header-bar" style="background-color: #0066CC; margin: 32px -20px 24px -20px; padding: 16px 20px;">
-            <h2 style="color: white; font-size: 1.4rem; font-weight: 800; margin: 0;">Previous Year Questions</h2>
         </div>
         
         <div class="pyq-section" style="margin-bottom: 32px;">

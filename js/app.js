@@ -26,10 +26,19 @@ const screenInitMap = {
   'screen-bookmarks': initBookmarks
 };
 
+import { currentUser } from './auth.js';
+
 // ── Wrap navigateTo to auto-init screens ──
 const originalNavigateTo = navigateTo;
 
 export function wrappedNavigateTo(screenId, direction = 'forward') {
+  // Auth Guard: if not logged in and trying to access a protected route
+  if (!currentUser && screenId !== 'screen-auth') {
+    console.warn(`Access denied to ${screenId}. Redirecting to auth.`);
+    originalNavigateTo('screen-auth', 'forward');
+    return;
+  }
+
   originalNavigateTo(screenId, direction);
 
   // Auto-initialize the target screen
@@ -80,6 +89,47 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnPyqAiims) {
     btnPyqAiims.addEventListener('click', () => wrappedNavigateTo('screen-test-setup'));
   }
+
+  // New Home UI buttons
+  const btnHomePremium = document.getElementById('home-go-premium');
+  const btnPricingContinue = document.getElementById('btn-pricing-continue');
+  const btnPracticeEnglish = document.getElementById('btn-practice-english');
+  const btnPracticeTamil = document.getElementById('btn-practice-tamil');
+  const btnQuickPractice = document.getElementById('btn-quick-practice');
+
+  if (btnHomePremium) {
+    btnHomePremium.addEventListener('click', () => wrappedNavigateTo('screen-pricing'));
+  }
+  if (btnPricingContinue) {
+    btnPricingContinue.addEventListener('click', () => goBack());
+  }
+  if (btnPracticeEnglish) {
+    btnPracticeEnglish.addEventListener('click', () => wrappedNavigateTo('screen-practice'));
+  }
+  if (btnPracticeTamil) {
+    btnPracticeTamil.addEventListener('click', () => wrappedNavigateTo('screen-practice'));
+  }
+  if (btnQuickPractice) {
+    btnQuickPractice.addEventListener('click', () => wrappedNavigateTo('screen-practice'));
+  }
+
+  // Bottom Nav Setup
+  document.querySelectorAll('.nav-btn-bottom').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+          const target = e.currentTarget.getAttribute('data-target');
+          if (target) {
+              // Reset active class
+              document.querySelectorAll('.nav-btn-bottom').forEach(b => {
+                  b.classList.remove('active');
+                  b.style.color = '#9CA3AF'; // inactive color
+              });
+              e.currentTarget.classList.add('active');
+              e.currentTarget.style.color = '#00897B'; // active color
+              
+              wrappedNavigateTo(target);
+          }
+      });
+  });
 
   if (navLogo) {
     navLogo.addEventListener('click', () => wrappedNavigateTo('screen-home'));

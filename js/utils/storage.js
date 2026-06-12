@@ -1,5 +1,8 @@
 // js/utils/storage.js — ExamForge localStorage wrapper
 
+import { db } from '../firebase-config.js';
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 const PREFIX = 'ef_';
 
 function todayStr() {
@@ -20,6 +23,51 @@ function yesterdayStr() {
 }
 
 export const store = {
+  // ── Firestore Sync ──
+  async syncFromFirestore(uid) {
+    if (!uid) return;
+    try {
+      const docRef = doc(db, "users", uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.stats) {
+          Object.keys(data.stats).forEach(key => {
+            if (typeof data.stats[key] === 'object') {
+              this.setJSON(key, data.stats[key]);
+            } else {
+              this.set(key, data.stats[key]);
+            }
+          });
+        }
+      }
+    } catch (e) {
+      console.error("Failed to sync from Firestore", e);
+    }
+  },
+
+  async syncToFirestore(uid) {
+    if (!uid) return;
+    try {
+      const stats = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith(PREFIX)) {
+          const raw = localStorage.getItem(key);
+          const shortKey = key.substring(PREFIX.length);
+          try {
+            stats[shortKey] = JSON.parse(raw);
+          } catch {
+            stats[shortKey] = raw;
+          }
+        }
+      }
+      const docRef = doc(db, "users", uid);
+      await setDoc(docRef, { stats, lastUpdated: new Date().toISOString() }, { merge: true });
+    } catch (e) {
+      console.error("Failed to sync to Firestore", e);
+    }
+  },
   // ── Raw localStorage ──
   get(key) {
     try {
@@ -32,6 +80,10 @@ export const store = {
   set(key, value) {
     try {
       localStorage.setItem(PREFIX + key, value);
+      // Auto-sync
+      import('../auth.js').then(({ currentUser }) => {
+        if (currentUser) this.syncToFirestore(currentUser.uid);
+      });
     } catch (e) {
       console.error('storage.set failed:', e);
     }
@@ -50,6 +102,10 @@ export const store = {
   setJSON(key, value) {
     try {
       localStorage.setItem(PREFIX + key, JSON.stringify(value));
+      // Auto-sync
+      import('../auth.js').then(({ currentUser }) => {
+        if (currentUser) this.syncToFirestore(currentUser.uid);
+      });
     } catch (e) {
       console.error('storage.setJSON failed:', e);
     }

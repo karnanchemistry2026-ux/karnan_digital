@@ -27,8 +27,8 @@ if (btnToggle) {
         isLoginMode = !isLoginMode;
         if (isLoginMode) {
             btnSubmit.textContent = "Sign In";
-            toggleText.textContent = "Don't have an account?";
-            btnToggle.textContent = "Sign Up";
+            toggleText.textContent = "No account?";
+            btnToggle.textContent = "Create one free";
         } else {
             btnSubmit.textContent = "Create Account";
             toggleText.textContent = "Already have an account?";
@@ -92,7 +92,7 @@ if (logoutBtn) {
 }
 
 // Global Auth State Observer
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     currentUser = user;
     
     // If we are on the auth screen and just logged in, go to home
@@ -100,9 +100,17 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         console.log("User is logged in:", user.email);
         
+        // Sync local storage from Firestore
+        const { store } = await import('./utils/storage.js');
+        await store.syncFromFirestore(user.uid);
+        
         // Update Profile Screen UI with user details if possible
         const profileEmail = document.getElementById('profile-email');
         if(profileEmail) profileEmail.textContent = user.email;
+
+        // Automatically update greeting name
+        const greetingName = document.getElementById('home-greeting-name');
+        if(greetingName) greetingName.textContent = user.displayName || user.email.split('@')[0];
 
         if (activeScreen && activeScreen.id === 'screen-auth') {
             wrappedNavigateTo('screen-home');
